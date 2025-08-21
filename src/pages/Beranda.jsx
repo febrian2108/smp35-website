@@ -1,8 +1,6 @@
 import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Instagram, ArrowRight, Star, Users, Trophy, Zap } from 'lucide-react';
-import studentIllustration from '../assets/tvfnONdBZzuB.jpg'; // School illustration
-import instagramIcon from '../assets/U3Pgf6HaDKpd.png'; // Instagram icon
 
 const Beranda = () => {
   const values = [
@@ -84,7 +82,7 @@ const Beranda = () => {
                   rel="noopener noreferrer"
                   className="flex items-center space-x-3 px-6 py-4 bg-white/10 hover:bg-white/20 rounded-lg transition-colors backdrop-blur-sm border border-white/20"
                 >
-                  <img src={instagramIcon} alt="Instagram" className="h-6 w-6" />
+                  <img src="assets/U3Pgf6HaDKpd.png" alt="Instagram" className="h-6 w-6" />
                   <span className="font-medium">Follow Instagram Kami</span>
                 </a>
               </div>
@@ -94,7 +92,7 @@ const Beranda = () => {
             <div className="relative">
               <div className="relative z-10">
                 <img 
-                  src={studentIllustration} 
+                  src="assets/tvfnONdBZzuB.jpg"
                   alt="Siswa SMP Negeri 35" 
                   className="w-full max-w-lg mx-auto rounded-2xl shadow-2xl"
                 />

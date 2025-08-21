@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react';
 import { BookOpen, Clock, Users, Award } from 'lucide-react';
 import { useFirestore } from '../hooks/useFirestore';
-import schoolBuilding from '../assets/tvfnONdBZzuB.jpg'; // School illustration
 
 const Sejarah = () => {
   const { documents: profilData, loading } = useFirestore('profil_sekolah');
@@ -84,14 +83,15 @@ Saat ini, SMP Negeri 35 Bandar Lampung telah menjadi salah satu sekolah menengah
       <section className="py-16 bg-white">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <div className="max-w-4xl mx-auto">
-            <img 
-              src={schoolBuilding} 
-              alt="SMP Negeri 35 Bandar Lampung" 
+            <img
+              src="/assets/tvfnONdBZzuB.jpg"
+              alt="SMP Negeri 35 Bandar Lampung"
               className="w-full h-64 md:h-96 object-cover rounded-xl shadow-lg mb-8"
             />
           </div>
         </div>
       </section>
+
 
       {/* Main Content */}
       <section className="py-16">
@@ -119,7 +119,7 @@ Saat ini, SMP Negeri 35 Bandar Lampung telah menjadi salah satu sekolah menengah
             <h2 className="text-3xl font-bold text-center text-gray-900 mb-12">
               Tonggak Sejarah Penting
             </h2>
-            
+
             <div className="space-y-8">
               {milestones.map((milestone, index) => (
                 <div key={index} className="flex items-start space-x-6 group">
@@ -129,14 +129,14 @@ Saat ini, SMP Negeri 35 Bandar Lampung telah menjadi salah satu sekolah menengah
                       {milestone.year}
                     </span>
                   </div>
-                  
+
                   {/* Icon */}
                   <div className="flex-shrink-0 w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center group-hover:bg-blue-200 transition-colors">
                     <div className="text-blue-600">
                       {milestone.icon}
                     </div>
                   </div>
-                  
+
                   {/* Content */}
                   <div className="flex-1 pb-8">
                     <h3 className="text-xl font-bold text-gray-900 mb-2">
@@ -164,7 +164,7 @@ Saat ini, SMP Negeri 35 Bandar Lampung telah menjadi salah satu sekolah menengah
               Pencapaian dan kondisi sekolah saat ini
             </p>
           </div>
-          
+
           <div className="grid md:grid-cols-4 gap-8 text-center">
             <div className="space-y-2">
               <div className="text-4xl font-bold text-yellow-400">38+</div>

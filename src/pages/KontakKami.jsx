@@ -154,24 +154,6 @@ const KontakKami = () => {
                     </a>
                   </div>
                 </div>
-
-                {/* Operating Hours */}
-                <div className="flex items-start space-x-4">
-                  <div className="flex-shrink-0 w-12 h-12 bg-orange-100 rounded-lg flex items-center justify-center">
-                    <Clock className="h-6 w-6 text-orange-600" />
-                  </div>
-                  <div>
-                    <h3 className="text-lg font-semibold text-gray-900 mb-3">Jam Operasional</h3>
-                    <div className="space-y-2">
-                      {jamOperasional.map((jadwal, index) => (
-                        <div key={index} className="flex justify-between items-center">
-                          <span className="text-gray-600">{jadwal.hari}</span>
-                          <span className="text-gray-900 font-medium">{jadwal.jam}</span>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                </div>
               </div>
 
               {/* Quick Actions */}

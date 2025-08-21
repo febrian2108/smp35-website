@@ -4,7 +4,7 @@ import { Menu, X, ChevronDown } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useAuth } from '../hooks/useAuth';
 
-const Navbar = () => {
+const NavbarImproved = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [activeDropdown, setActiveDropdown] = useState(null);
   const location = useLocation();
@@ -78,7 +78,7 @@ const Navbar = () => {
           {/* Logo */}
           <Link to="/" className="flex items-center space-x-3" onClick={closeAllDropdowns}>
             <img 
-              src="assets/doQSy0TQT8g8.jpg" 
+              src="assets/doQSy0TQT8g8.jpg"
               alt="Logo SMP Negeri 35 Bandar Lampung" 
               className="h-10 w-10 rounded-full object-cover"
             />
@@ -281,5 +281,5 @@ const Navbar = () => {
   );
 };
 
-export default Navbar;
+export default NavbarImproved;
 
