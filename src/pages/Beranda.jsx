@@ -77,7 +77,7 @@ const Beranda = () => {
                 </Link>
                 
                 <a 
-                  href="https://instagram.com/smpn35_bdl" 
+                  href="https://www.instagram.com/smpn35balam" 
                   target="_blank" 
                   rel="noopener noreferrer"
                   className="flex items-center space-x-3 px-6 py-4 bg-white/10 hover:bg-white/20 rounded-lg transition-colors backdrop-blur-sm border border-white/20"
@@ -92,9 +92,9 @@ const Beranda = () => {
             <div className="relative">
               <div className="relative z-10">
                 <img 
-                  src="assets/tvfnONdBZzuB.jpg"
+                  src="assets/Photo-Smp-Negeri-35-Bdl-Beranda.jpeg"
                   alt="Siswa SMP Negeri 35" 
-                  className="w-full max-w-lg mx-auto rounded-2xl shadow-2xl"
+                  className="w-full max-w-max mx-auto rounded-2xl shadow-2xl"
                 />
               </div>
               

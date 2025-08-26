@@ -18,15 +18,11 @@ const VisiMisi = () => {
   }, [profilData]);
 
   // Default content if no data from Firestore
-  const defaultVisi = "Menjadi sekolah menengah pertama yang unggul dalam prestasi akademik dan non-akademik, berkarakter religius, dan berwawasan lingkungan.";
+  const defaultVisi = "Meningkatkan prestasi siswa berdasarkan iman dan takwa.";
   
   const defaultMisi = [
-    "Menyelenggarakan pendidikan yang berkualitas dengan mengintegrasikan nilai-nilai religius dalam setiap kegiatan pembelajaran",
-    "Mengembangkan potensi siswa secara optimal melalui pembelajaran yang inovatif dan berbasis teknologi",
-    "Membentuk karakter siswa yang berakhlak mulia, mandiri, dan bertanggung jawab",
-    "Menciptakan lingkungan sekolah yang kondusif, aman, dan nyaman untuk belajar",
-    "Mengembangkan kerjasama yang harmonis antara sekolah, orang tua, dan masyarakat",
-    "Menanamkan kesadaran untuk menjaga dan melestarikan lingkungan hidup"
+    "agar peserta didik menjadi siswa yang berprestasi ",
+    "menjadi anak yang berguna bagi nusa dan bangsa",
   ];
 
   const defaultTujuan = [
@@ -80,7 +76,7 @@ const VisiMisi = () => {
             
             <div className="bg-gradient-to-r from-blue-50 to-indigo-50 rounded-xl p-8 md:p-12 border border-blue-100">
               <blockquote className="text-xl md:text-2xl font-medium text-gray-800 leading-relaxed italic">
-                "{visi || defaultVisi}"
+                "{defaultVisi}"
               </blockquote>
             </div>
           </div>
@@ -104,7 +100,7 @@ const VisiMisi = () => {
             </div>
 
             <div className="grid gap-6">
-              {(misi.length > 0 ? misi : defaultMisi).map((item, index) => (
+              {(defaultMisi).map((item, index) => (
                 <div 
                   key={index}
                   className="bg-white rounded-xl p-6 shadow-md hover:shadow-lg transition-shadow duration-300 flex items-start space-x-4"
@@ -115,43 +111,6 @@ const VisiMisi = () => {
                   <p className="text-gray-800 leading-relaxed flex-1">
                     {item}
                   </p>
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Tujuan Section */}
-      <section className="py-16 bg-white">
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="max-w-4xl mx-auto">
-            <div className="text-center mb-12">
-              <div className="inline-flex items-center justify-center w-16 h-16 bg-purple-100 rounded-full mb-6">
-                <CheckCircle className="h-8 w-8 text-purple-600" />
-              </div>
-              <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
-                Tujuan Sekolah
-              </h2>
-              <p className="text-lg text-gray-600">
-                Target pencapaian yang ingin diraih oleh sekolah
-              </p>
-            </div>
-
-            <div className="grid md:grid-cols-2 gap-6">
-              {(tujuan.length > 0 ? tujuan : defaultTujuan).map((item, index) => (
-                <div 
-                  key={index}
-                  className="bg-gradient-to-br from-purple-50 to-indigo-50 rounded-xl p-6 border border-purple-100 hover:border-purple-200 transition-colors duration-300"
-                >
-                  <div className="flex items-start space-x-4">
-                    <div className="flex-shrink-0 w-8 h-8 bg-purple-100 rounded-full flex items-center justify-center mt-1">
-                      <CheckCircle className="h-5 w-5 text-purple-600" />
-                    </div>
-                    <p className="text-gray-800 leading-relaxed flex-1">
-                      {item}
-                    </p>
-                  </div>
                 </div>
               ))}
             </div>
