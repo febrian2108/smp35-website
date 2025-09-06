@@ -13,17 +13,7 @@ const Sejarah = () => {
   }, [profilData]);
 
   // Default content if no data from Firestore
-  const defaultSejarah = `SMP Negeri 35 Bandar Lampung didirikan pada tahun 1985 sebagai bagian dari upaya pemerintah untuk meningkatkan akses pendidikan menengah pertama di wilayah Bandar Lampung. Sekolah ini berlokasi strategis di jantung kota, memungkinkan akses yang mudah bagi siswa dari berbagai daerah.
-
-Pada awal berdirinya, SMP Negeri 35 hanya memiliki 6 ruang kelas dengan jumlah siswa sekitar 180 orang. Seiring berjalannya waktu, sekolah terus berkembang dan mengalami berbagai perbaikan fasilitas serta peningkatan kualitas pendidikan.
-
-Tahun 1990-an menjadi periode penting dalam sejarah sekolah, dimana berbagai program unggulan mulai dikembangkan. Program ekstrakurikuler yang beragam mulai diperkenalkan untuk mengembangkan bakat dan minat siswa di luar bidang akademik.
-
-Memasuki era 2000-an, SMP Negeri 35 mulai mengintegrasikan teknologi dalam proses pembelajaran. Laboratorium komputer pertama didirikan pada tahun 2003, diikuti dengan pemasangan jaringan internet pada tahun 2005.
-
-Prestasi demi prestasi mulai diraih oleh siswa-siswa SMP Negeri 35, baik di tingkat kota, provinsi, maupun nasional. Hal ini membuktikan komitmen sekolah dalam memberikan pendidikan berkualitas dan mengembangkan potensi siswa secara optimal.
-
-Saat ini, SMP Negeri 35 Bandar Lampung telah menjadi salah satu sekolah menengah pertama terkemuka di kota Bandar Lampung, dengan fasilitas yang lengkap dan tenaga pendidik yang berkualitas. Sekolah terus berkomitmen untuk memberikan pendidikan terbaik bagi generasi penerus bangsa.`;
+  const defaultSejarah = `SMP Negeri 35 Bandar Lampung diresmikan pada 17 Juli 2017 oleh Pemerintah Kota Bandar Lampung, dan awalnya berasal dari Sekolah Dasar (SD) Negeri di daerah Kupang Kota yang kemudian beralih fungsi menjadi SMP. Sekolah ini didirikan untuk memenuhi kebutuhan pendidikan menengah di daerah Bandar Lampung yang sedang berkembang pesat, dan telah mengalami perkembangan signifikan baik dari segi fasilitas maupun kualitas pendidikan.`;
 
   const milestones = [
     {
