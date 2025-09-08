@@ -1,3 +1,4 @@
+import Footer from '../components/Footer';
 import { useState, useEffect } from 'react';
 import { BookOpen, Clock, Users, Award } from 'lucide-react';
 import { useFirestore } from '../hooks/useFirestore';
@@ -179,6 +180,8 @@ const Sejarah = () => {
           </div>
         </div>
       </section>
+      
+      <Footer />
     </div>
   );
 };

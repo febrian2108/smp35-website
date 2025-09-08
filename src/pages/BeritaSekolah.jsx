@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { Calendar, Clock, ArrowRight, Filter } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useFirestore } from '../hooks/useFirestore';
+import Footer from '../components/Footer';
 
 const BeritaSekolah = () => {
   const { documents: berita, loading } = useFirestore('berita');
@@ -194,6 +195,8 @@ const BeritaSekolah = () => {
           </div>
         </div>
       </section>
+      
+      <Footer />
     </div>
   );
 };

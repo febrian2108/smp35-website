@@ -18,6 +18,10 @@ import Login from './pages/Login';
 
 // Admin Pages
 import AdminDashboard from './pages/AdminDashboard';
+import AdminBerita from './pages/AdminBerita';
+import AdminGuruStaff from './pages/AdminGuruStaff';
+import AdminPrestasi from './pages/AdminPrestasi';
+import AdminEkstrakurikuler from './pages/AdminEkstrakurikuler';
 
 import './App.css';
 
@@ -56,45 +60,25 @@ function App() {
           
           <Route path="/admin/berita" element={
             <ProtectedRoute>
-              <div className="min-h-screen bg-gray-50 flex items-center justify-center">
-                <div className="text-center">
-                  <h2 className="text-2xl font-bold text-gray-900 mb-4">Kelola Berita</h2>
-                  <p className="text-gray-600">Halaman ini sedang dalam pengembangan</p>
-                </div>
-              </div>
+              <AdminBerita />
             </ProtectedRoute>
           } />
           
           <Route path="/admin/guru-staff" element={
             <ProtectedRoute>
-              <div className="min-h-screen bg-gray-50 flex items-center justify-center">
-                <div className="text-center">
-                  <h2 className="text-2xl font-bold text-gray-900 mb-4">Kelola Guru & Staff</h2>
-                  <p className="text-gray-600">Halaman ini sedang dalam pengembangan</p>
-                </div>
-              </div>
+              <AdminGuruStaff />
             </ProtectedRoute>
           } />
           
           <Route path="/admin/prestasi" element={
             <ProtectedRoute>
-              <div className="min-h-screen bg-gray-50 flex items-center justify-center">
-                <div className="text-center">
-                  <h2 className="text-2xl font-bold text-gray-900 mb-4">Kelola Prestasi</h2>
-                  <p className="text-gray-600">Halaman ini sedang dalam pengembangan</p>
-                </div>
-              </div>
+              <AdminPrestasi />
             </ProtectedRoute>
           } />
           
           <Route path="/admin/ekstrakurikuler" element={
             <ProtectedRoute>
-              <div className="min-h-screen bg-gray-50 flex items-center justify-center">
-                <div className="text-center">
-                  <h2 className="text-2xl font-bold text-gray-900 mb-4">Kelola Ekstrakurikuler</h2>
-                  <p className="text-gray-600">Halaman ini sedang dalam pengembangan</p>
-                </div>
-              </div>
+              <AdminEkstrakurikuler />
             </ProtectedRoute>
           } />
 

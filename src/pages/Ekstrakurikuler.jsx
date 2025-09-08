@@ -1,3 +1,4 @@
+import Footer from '../components/Footer';
 import { useState } from 'react';
 import { Users, Clock, MapPin, Star, Heart, Music, Palette, Trophy, BookOpen } from 'lucide-react';
 import { useFirestore } from '../hooks/useFirestore';
@@ -347,37 +348,9 @@ const Ekstrakurikuler = () => {
         </div>
       </section>
 
-      {/* CTA Section */}
-      <section className="py-16 bg-blue-900 text-white">
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <div className="max-w-3xl mx-auto">
-            <Users className="h-16 w-16 text-yellow-400 mx-auto mb-6" />
-            <h2 className="text-3xl font-bold mb-4">
-              Bergabunglah dengan Ekstrakurikuler Kami!
-            </h2>
-            <p className="text-xl text-blue-200 mb-8">
-              Jangan lewatkan kesempatan untuk mengembangkan bakat dan minatmu. 
-              Daftarkan diri sekarang dan jadilah bagian dari komunitas yang luar biasa!
-            </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <a 
-                href="/kontak" 
-                className="inline-flex items-center justify-center px-6 py-3 bg-yellow-500 hover:bg-yellow-600 text-blue-900 font-semibold rounded-lg transition-colors"
-              >
-                <Users className="h-5 w-5 mr-2" />
-                Daftar Sekarang
-              </a>
-              <a 
-                href="/prestasi" 
-                className="inline-flex items-center justify-center px-6 py-3 border-2 border-white text-white hover:bg-white hover:text-blue-900 font-semibold rounded-lg transition-colors"
-              >
-                <Trophy className="h-5 w-5 mr-2" />
-                Lihat Prestasi
-              </a>
-            </div>
-          </div>
-        </div>
-      </section>
+      {/* Footer */}
+      <Footer />
+      
     </div>
   );
 };

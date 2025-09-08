@@ -1,3 +1,4 @@
+import Footer from '../components/Footer';
 import { useState, useEffect } from 'react';
 import { Trophy, Medal, Star, Calendar, Award, Users } from 'lucide-react';
 import { useFirestore } from '../hooks/useFirestore';
@@ -287,37 +288,9 @@ const PrestasiSiswa = () => {
         </div>
       </section>
 
-      {/* CTA Section */}
-      <section className="py-16 bg-blue-900 text-white">
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <div className="max-w-3xl mx-auto">
-            <Trophy className="h-16 w-16 text-yellow-400 mx-auto mb-6" />
-            <h2 className="text-3xl font-bold mb-4">
-              Bergabunglah dengan Kami!
-            </h2>
-            <p className="text-xl text-blue-200 mb-8">
-              Kembangkan potensi dan raih prestasi terbaikmu bersama SMP Negeri 35 Bandar Lampung. 
-              Kami siap mendukung setiap langkah perjalanan pendidikanmu.
-            </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <a 
-                href="/kontak" 
-                className="inline-flex items-center justify-center px-6 py-3 bg-yellow-500 hover:bg-yellow-600 text-blue-900 font-semibold rounded-lg transition-colors"
-              >
-                <Users className="h-5 w-5 mr-2" />
-                Hubungi Kami
-              </a>
-              <a 
-                href="/ekstrakurikuler" 
-                className="inline-flex items-center justify-center px-6 py-3 border-2 border-white text-white hover:bg-white hover:text-blue-900 font-semibold rounded-lg transition-colors"
-              >
-                <Star className="h-5 w-5 mr-2" />
-                Lihat Ekstrakurikuler
-              </a>
-            </div>
-          </div>
-        </div>
-      </section>
+      {/* Footer */}      
+      <Footer />
+    
     </div>
   );
 };

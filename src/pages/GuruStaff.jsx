@@ -1,3 +1,4 @@
+import Footer from '../components/Footer';
 import { useState, useEffect } from 'react';
 import { User, Mail, Phone, Award } from 'lucide-react';
 import { useFirestore } from '../hooks/useFirestore';
@@ -312,6 +313,8 @@ const GuruStaff = () => {
           </div>
         </div>
       </section>
+      
+      <Footer />
     </div>
   );
 };

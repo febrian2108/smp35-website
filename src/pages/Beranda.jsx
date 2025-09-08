@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Instagram, ArrowRight, Star, Users, Trophy, Zap } from 'lucide-react';
+import Footer from '../components/Footer';
 
 const Beranda = () => {
   const values = [
@@ -148,28 +149,9 @@ const Beranda = () => {
         </div>
       </section>
 
-      {/* Quick Info Section */}
-      <section className="py-20 bg-blue-900 text-white">
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid md:grid-cols-3 gap-8 text-center">
-            <div className="space-y-4">
-              <div className="text-4xl font-bold text-yellow-400">35+</div>
-              <h3 className="text-xl font-semibold">Tahun Berpengalaman</h3>
-              <p className="text-blue-200">Melayani pendidikan berkualitas di Bandar Lampung</p>
-            </div>
-            <div className="space-y-4">
-              <div className="text-4xl font-bold text-yellow-400">500+</div>
-              <h3 className="text-xl font-semibold">Siswa Aktif</h3>
-              <p className="text-blue-200">Siswa yang berprestasi dan berkarakter</p>
-            </div>
-            <div className="space-y-4">
-              <div className="text-4xl font-bold text-yellow-400">50+</div>
-              <h3 className="text-xl font-semibold">Tenaga Pendidik</h3>
-              <p className="text-blue-200">Guru dan staff yang berpengalaman</p>
-            </div>
-          </div>
-        </div>
-      </section>
+      {/* Footer */}
+      <Footer />
+      
     </div>
   );
 };

@@ -1,3 +1,4 @@
+import Footer from '../components/Footer';
 import { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { Calendar, Clock, ArrowLeft, Share2 } from 'lucide-react';
@@ -204,6 +205,8 @@ const BeritaDetail = () => {
           </div>
         </div>
       </section>
+      
+      <Footer />
     </div>
   );
 };

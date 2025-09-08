@@ -1,3 +1,4 @@
+import Footer from '../components/Footer';
 import { useState, useEffect } from 'react';
 import { Target, Eye, CheckCircle, Star } from 'lucide-react';
 import { useFirestore } from '../hooks/useFirestore';
@@ -154,6 +155,8 @@ const VisiMisi = () => {
           </div>
         </div>
       </section>
+      
+      <Footer />
     </div>
   );
 };
