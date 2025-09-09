@@ -60,9 +60,6 @@ const BeritaSekolah = () => {
             <h1 className="text-4xl md:text-5xl font-bold mb-4">
               Berita Sekolah
             </h1>
-            <p className="text-xl text-blue-200 max-w-2xl mx-auto">
-              Ikuti perkembangan terbaru dan kegiatan-kegiatan menarik di SMP Negeri 35 Bandar Lampung
-            </p>
           </div>
         </div>
       </section>
@@ -166,37 +163,10 @@ const BeritaSekolah = () => {
           )}
         </div>
       </section>
-
-      {/* CTA Section */}
-      <section className="py-16 bg-blue-900 text-white">
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h2 className="text-3xl font-bold mb-4">
-            Ingin Tahu Lebih Banyak?
-          </h2>
-          <p className="text-xl text-blue-200 mb-8 max-w-2xl mx-auto">
-            Kunjungi halaman lainnya untuk mengetahui lebih banyak tentang SMP Negeri 35 Bandar Lampung
-          </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Link to="/profil/sejarah">
-              <Button variant="outline" size="lg" className="text-blue-900 border-white hover:bg-white">
-                Profil Sekolah
-              </Button>
-            </Link>
-            <Link to="/guru-staff">
-              <Button variant="outline" size="lg" className="text-blue-900 border-white hover:bg-white">
-                Guru & Staff
-              </Button>
-            </Link>
-            <Link to="/kontak">
-              <Button variant="outline" size="lg" className="text-blue-900 border-white hover:bg-white">
-                Kontak Kami
-              </Button>
-            </Link>
-          </div>
-        </div>
-      </section>
       
+      {/* Footer */}
       <Footer />
+
     </div>
   );
 };

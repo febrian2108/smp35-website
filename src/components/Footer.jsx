@@ -1,4 +1,4 @@
-import { Facebook, Instagram, Youtube, Music } from 'lucide-react';
+import { SocialIcon } from 'react-social-icons';
 
 const Footer = () => {
   return (
@@ -36,34 +36,18 @@ const Footer = () => {
           <div className="mb-8">
             <h4 className="text-white text-lg font-semibold mb-4">Temukan Kami</h4>
             <div className="flex justify-center space-x-4">
-              <a 
-                href="#" 
-                className="bg-white bg-opacity-20 hover:bg-opacity-30 rounded-full p-3 transition-all duration-300"
-                aria-label="Facebook"
-              >
-                <Facebook className="w-6 h-6 text-white" />
-              </a>
-              <a 
-                href="#" 
-                className="bg-white bg-opacity-20 hover:bg-opacity-30 rounded-full p-3 transition-all duration-300"
-                aria-label="Instagram"
-              >
-                <Instagram className="w-6 h-6" />
-              </a>
-              <a 
-                href="#" 
-                className="bg-white bg-opacity-20 hover:bg-opacity-30 rounded-full p-3 transition-all duration-300"
-                aria-label="YouTube"
-              >
-                <Youtube className="w-6 h-6 text-white" />
-              </a>
-              <a 
-                href="#" 
-                className="bg-white bg-opacity-20 hover:bg-opacity-30 rounded-full p-3 transition-all duration-300"
-                aria-label="TikTok"
-              >
-                <Music className="w-6 h-6 text-white" />
-              </a>
+              <SocialIcon 
+                url="https://www.instagram.com/smpn35balam" 
+                fgColor="#fff"
+                bgColor="rgba(255,255,255,0.2)" 
+                style={{ height: 40, width: 40 }} 
+              />
+              <SocialIcon 
+                url="https://www.tiktok.com/@smpn35balam" 
+                fgColor="#fff"
+                bgColor="rgba(255,255,255,0.2)" 
+                style={{ height: 40, width: 40 }} 
+              />
             </div>
           </div>
         </div>
@@ -87,4 +71,3 @@ const Footer = () => {
 };
 
 export default Footer;
-

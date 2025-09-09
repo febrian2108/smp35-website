@@ -77,15 +77,6 @@ const Beranda = () => {
                   </Button>
                 </Link>
                 
-                <a 
-                  href="https://www.instagram.com/smpn35balam" 
-                  target="_blank" 
-                  rel="noopener noreferrer"
-                  className="flex items-center space-x-3 px-6 py-4 bg-white/10 hover:bg-white/20 rounded-lg transition-colors backdrop-blur-sm border border-white/20"
-                >
-                  <img src="assets/U3Pgf6HaDKpd.png" alt="Instagram" className="h-6 w-6" />
-                  <span className="font-medium">Follow Instagram Kami</span>
-                </a>
               </div>
             </div>
 
