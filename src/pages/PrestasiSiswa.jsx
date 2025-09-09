@@ -146,9 +146,6 @@ const PrestasiSiswa = () => {
             <h1 className="text-4xl md:text-5xl font-bold mb-4">
               Prestasi Siswa
             </h1>
-            <p className="text-xl text-blue-200 max-w-2xl mx-auto">
-              Pencapaian membanggakan siswa-siswi SMP Negeri 35 Bandar Lampung di berbagai bidang kompetisi
-            </p>
           </div>
         </div>
       </section>

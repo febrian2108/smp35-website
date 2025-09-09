@@ -55,9 +55,6 @@ const VisiMisi = () => {
             <h1 className="text-4xl md:text-5xl font-bold mb-4">
               Visi, Misi & Tujuan
             </h1>
-            <p className="text-xl text-blue-200 max-w-2xl mx-auto">
-              Komitmen SMP Negeri 35 Bandar Lampung dalam memberikan pendidikan berkualitas
-            </p>
           </div>
         </div>
       </section>
