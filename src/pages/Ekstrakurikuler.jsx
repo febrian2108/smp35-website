@@ -154,33 +154,6 @@ const Ekstrakurikuler = () => {
             <h1 className="text-4xl md:text-5xl font-bold mb-4">
               Ekstrakurikuler
             </h1>
-            <p className="text-xl text-blue-200 max-w-2xl mx-auto">
-              Berbagai kegiatan menarik untuk mengembangkan bakat, minat, dan karakter siswa di luar jam pelajaran
-            </p>
-          </div>
-        </div>
-      </section>
-
-      {/* Stats Section */}
-      <section className="py-12 bg-white">
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid md:grid-cols-4 gap-8 text-center">
-            <div className="space-y-2">
-              <div className="text-3xl font-bold text-blue-600">15+</div>
-              <div className="text-gray-700 font-medium">Jenis Ekstrakurikuler</div>
-            </div>
-            <div className="space-y-2">
-              <div className="text-3xl font-bold text-green-600">300+</div>
-              <div className="text-gray-700 font-medium">Siswa Aktif</div>
-            </div>
-            <div className="space-y-2">
-              <div className="text-3xl font-bold text-purple-600">20+</div>
-              <div className="text-gray-700 font-medium">Pembina Berpengalaman</div>
-            </div>
-            <div className="space-y-2">
-              <div className="text-3xl font-bold text-orange-600">50+</div>
-              <div className="text-gray-700 font-medium">Prestasi Diraih</div>
-            </div>
           </div>
         </div>
       </section>

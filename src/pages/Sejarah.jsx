@@ -14,7 +14,7 @@ const Sejarah = () => {
   }, [profilData]);
 
   // Default content if no data from Firestore
-  const defaultSejarah = `SMP Negeri 35 Bandar Lampung diresmikan pada 17 Juli 2017 oleh Pemerintah Kota Bandar Lampung, dan awalnya berasal dari Sekolah Dasar (SD) Negeri di daerah Kupang Kota yang kemudian beralih fungsi menjadi SMP. Sekolah ini didirikan untuk memenuhi kebutuhan pendidikan menengah di daerah Bandar Lampung yang sedang berkembang pesat, dan telah mengalami perkembangan signifikan baik dari segi fasilitas maupun kualitas pendidikan.`;
+  const defaultSejarah = `Sejarah SMP Negeri 35 Bandar Lampung dimulai saat sekolah tersebut diresmikan pada tanggal 17 Juli 2017 oleh Pemerintah Kota Bandar Lampung. Awalnya, sekolah ini berdiri di lokasi bekas Sekolah Dasar Negeri di daerah Kupang Kota.`;
 
   const milestones = [
     {
@@ -63,9 +63,6 @@ const Sejarah = () => {
             <h1 className="text-4xl md:text-5xl font-bold mb-4">
               Sejarah Sekolah
             </h1>
-            <p className="text-xl text-blue-200 max-w-2xl mx-auto">
-              Perjalanan panjang SMP Negeri 35 Bandar Lampung dalam memberikan pendidikan berkualitas
-            </p>
           </div>
         </div>
       </section>
@@ -75,7 +72,7 @@ const Sejarah = () => {
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <div className="max-w-4xl mx-auto">
             <img
-              src="/assets/tvfnONdBZzuB.jpg"
+              src="/assets/photo-sejarah-smp-negeri-35-bdl.jpg"
               alt="SMP Negeri 35 Bandar Lampung"
               className="w-full h-64 md:h-96 object-cover rounded-xl shadow-lg mb-8"
             />
@@ -91,7 +88,7 @@ const Sejarah = () => {
             <div className="bg-white rounded-xl shadow-md p-8 md:p-12">
               <div className="prose prose-lg max-w-none">
                 <div className="text-gray-800 leading-relaxed space-y-6">
-                  {(sejarah || defaultSejarah).split('\n\n').map((paragraph, index) => (
+                  {( defaultSejarah).split('\n\n').map((paragraph, index) => (
                     <p key={index} className="text-lg leading-relaxed">
                       {paragraph}
                     </p>
@@ -103,85 +100,9 @@ const Sejarah = () => {
         </div>
       </section>
 
-      {/* Timeline */}
-      <section className="py-16 bg-white">
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="max-w-4xl mx-auto">
-            <h2 className="text-3xl font-bold text-center text-gray-900 mb-12">
-              Tonggak Sejarah Penting
-            </h2>
-
-            <div className="space-y-8">
-              {milestones.map((milestone, index) => (
-                <div key={index} className="flex items-start space-x-6 group">
-                  {/* Year */}
-                  <div className="flex-shrink-0 w-20 text-right">
-                    <span className="text-2xl font-bold text-blue-600">
-                      {milestone.year}
-                    </span>
-                  </div>
-
-                  {/* Icon */}
-                  <div className="flex-shrink-0 w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center group-hover:bg-blue-200 transition-colors">
-                    <div className="text-blue-600">
-                      {milestone.icon}
-                    </div>
-                  </div>
-
-                  {/* Content */}
-                  <div className="flex-1 pb-8">
-                    <h3 className="text-xl font-bold text-gray-900 mb-2">
-                      {milestone.title}
-                    </h3>
-                    <p className="text-gray-600 leading-relaxed">
-                      {milestone.description}
-                    </p>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Stats Section */}
-      <section className="py-16 bg-blue-900 text-white">
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold mb-4">
-              SMP Negeri 35 Hari Ini
-            </h2>
-            <p className="text-xl text-blue-200">
-              Pencapaian dan kondisi sekolah saat ini
-            </p>
-          </div>
-
-          <div className="grid md:grid-cols-4 gap-8 text-center">
-            <div className="space-y-2">
-              <div className="text-4xl font-bold text-yellow-400">38+</div>
-              <div className="text-lg font-semibold">Tahun Berpengalaman</div>
-              <div className="text-blue-200 text-sm">Melayani pendidikan berkualitas</div>
-            </div>
-            <div className="space-y-2">
-              <div className="text-4xl font-bold text-yellow-400">500+</div>
-              <div className="text-lg font-semibold">Siswa Aktif</div>
-              <div className="text-blue-200 text-sm">Dari berbagai latar belakang</div>
-            </div>
-            <div className="space-y-2">
-              <div className="text-4xl font-bold text-yellow-400">50+</div>
-              <div className="text-lg font-semibold">Tenaga Pendidik</div>
-              <div className="text-blue-200 text-sm">Guru dan staff berpengalaman</div>
-            </div>
-            <div className="space-y-2">
-              <div className="text-4xl font-bold text-yellow-400">100+</div>
-              <div className="text-lg font-semibold">Prestasi</div>
-              <div className="text-blue-200 text-sm">Di berbagai bidang kompetisi</div>
-            </div>
-          </div>
-        </div>
-      </section>
-      
+      {/* Footer */}
       <Footer />
+
     </div>
   );
 };
