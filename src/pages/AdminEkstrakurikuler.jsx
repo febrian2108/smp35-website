@@ -31,10 +31,10 @@ export default function AdminEkstrakurikuler() {
     'Akademik',
     'Seni',
     'Olahraga',
-    'Teknologi',
-    'Sosial',
+    'Organisasi',
+    'Keagamaan',
     'Karakter',
-    'Media'
+    'Kesehatan'
   ];
 
   useEffect(() => {
