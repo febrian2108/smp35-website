@@ -3,11 +3,10 @@ import { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { Calendar, Clock, ArrowLeft, Share2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { useFirestore } from '../hooks/useFirestore';
+import { supabase } from '../lib/supabase';
 
 const BeritaDetail = () => {
   const { id } = useParams();
-  const { getDocument } = useFirestore('berita');
   const [berita, setBerita] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -15,18 +14,26 @@ const BeritaDetail = () => {
   useEffect(() => {
     const fetchBerita = async () => {
       if (id) {
-        const result = await getDocument(id);
-        if (result.success) {
-          setBerita(result.data);
-        } else {
-          setError(result.error);
+        try {
+          const { data, error } = await supabase
+            .from('berita')
+            .select('*')
+            .eq('id', id)
+            .single();
+
+          if (error) throw error;
+          setBerita(data);
+        } catch (error) {
+          console.error('Error fetching berita:', error);
+          setError(error.message);
+        } finally {
+          setLoading(false);
         }
-        setLoading(false);
       }
     };
 
     fetchBerita();
-  }, [id, getDocument]);
+  }, [id]);
 
   const formatDate = (dateString) => {
     const date = new Date(dateString);
@@ -101,11 +108,7 @@ const BeritaDetail = () => {
               <div className="flex items-center space-x-4 text-gray-600">
                 <div className="flex items-center space-x-2">
                   <Calendar className="h-4 w-4" />
-                  <span>{formatDate(berita.tanggal)}</span>
-                </div>
-                <div className="flex items-center space-x-2">
-                  <Clock className="h-4 w-4" />
-                  <span>5 menit baca</span>
+                  <span>{formatDate(berita.tanggal || berita.created_at)}</span>
                 </div>
               </div>
             </div>
@@ -127,10 +130,10 @@ const BeritaDetail = () => {
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <div className="max-w-4xl mx-auto">
             {/* Featured Image */}
-            {berita.gambarUrl && (
+            {berita.gambar_url && (
               <div className="mb-8">
                 <img 
-                  src={berita.gambarUrl} 
+                  src={berita.gambar_url} 
                   alt={berita.judul}
                   className="w-full h-64 md:h-96 object-cover rounded-xl shadow-lg"
                 />
@@ -182,31 +185,9 @@ const BeritaDetail = () => {
         </div>
       </section>
 
-      {/* Related or CTA Section */}
-      <section className="py-16 bg-blue-900 text-white">
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h2 className="text-3xl font-bold mb-4">
-            Tetap Terhubung dengan Kami
-          </h2>
-          <p className="text-xl text-blue-200 mb-8 max-w-2xl mx-auto">
-            Ikuti terus perkembangan dan kegiatan terbaru SMP Negeri 35 Bandar Lampung
-          </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Link to="/berita">
-              <Button variant="outline" size="lg" className="text-blue-900 border-white hover:bg-white">
-                Berita Lainnya
-              </Button>
-            </Link>
-            <Link to="/kontak">
-              <Button variant="outline" size="lg" className="text-blue-900 border-white hover:bg-white">
-                Hubungi Kami
-              </Button>
-            </Link>
-          </div>
-        </div>
-      </section>
-      
+      {/* Footer */}
       <Footer />
+      
     </div>
   );
 };

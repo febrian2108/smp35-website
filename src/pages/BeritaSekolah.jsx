@@ -2,13 +2,34 @@ import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Calendar, Clock, ArrowRight, Filter } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { useFirestore } from '../hooks/useFirestore';
+import { supabase } from '../lib/supabase';
 import Footer from '../components/Footer';
 
 const BeritaSekolah = () => {
-  const { documents: berita, loading } = useFirestore('berita');
+  const [berita, setBerita] = useState([]);
+  const [loading, setLoading] = useState(true);
   const [filteredBerita, setFilteredBerita] = useState([]);
   const [sortOrder, setSortOrder] = useState('terbaru');
+
+  useEffect(() => {
+    fetchBerita();
+  }, []);
+
+  const fetchBerita = async () => {
+    try {
+      const { data, error } = await supabase
+        .from('berita')
+        .select('*')
+        .order('created_at', { ascending: false });
+
+      if (error) throw error;
+      setBerita(data || []);
+    } catch (error) {
+      console.error('Error fetching berita:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   useEffect(() => {
     // Update document title and meta tags for SEO
@@ -35,8 +56,8 @@ const BeritaSekolah = () => {
   useEffect(() => {
     if (berita.length > 0) {
       const sorted = [...berita].sort((a, b) => {
-        const dateA = new Date(a.tanggal);
-        const dateB = new Date(b.tanggal);
+        const dateA = new Date(a.tanggal || a.created_at);
+        const dateB = new Date(b.tanggal || b.created_at);
         
         if (sortOrder === 'terbaru') {
           return dateB - dateA;
@@ -138,9 +159,9 @@ const BeritaSekolah = () => {
                 >
                   {/* Image */}
                   <div className="relative h-48 bg-gray-200 overflow-hidden">
-                    {item.gambarUrl ? (
+                    {item.gambar_url ? (
                       <img 
-                        src={item.gambarUrl} 
+                        src={item.gambar_url} 
                         alt={item.judul}
                         className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                       />
@@ -157,7 +178,7 @@ const BeritaSekolah = () => {
                     {/* Date */}
                     <div className="flex items-center space-x-2 text-sm text-gray-500 mb-3">
                       <Clock className="h-4 w-4" />
-                      <span>{formatDate(item.tanggal)}</span>
+                      <span>{formatDate(item.tanggal || item.created_at)}</span>
                     </div>
 
                     {/* Title */}
@@ -167,7 +188,7 @@ const BeritaSekolah = () => {
 
                     {/* Description */}
                     <p className="text-gray-600 mb-4 line-clamp-3">
-                      {truncateText(item.deskripsi)}
+                      {truncateText(item.deskripsi || item.isi)}
                     </p>
 
                     {/* Read More Button */}
