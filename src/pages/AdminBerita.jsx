@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { supabase } from '../lib/supabase';
 import { Button } from '../components/ui/button';
 import { Input } from '../components/ui/input';
+import { useSupabaseStorage } from '../hooks/useSupabaseStorage';
 import { Textarea } from '../components/ui/textarea';
 import { Card, CardContent, CardHeader, CardTitle } from '../components/ui/card';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '../components/ui/dialog';
@@ -15,11 +16,13 @@ export default function AdminBerita() {
   const [loading, setLoading] = useState(true);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [editingBerita, setEditingBerita] = useState(null);
+  const { uploadFile, uploading } = useSupabaseStorage();
   const [formData, setFormData] = useState({
-    judul: '',
-    deskripsi: '',
-    isi: '',
-    gambar_url: ''
+    judul: "",
+    deskripsi: "",
+    isi: "",
+    gambar_url: "",
+    gambarFile: null,
   });
   const navigate = useNavigate();
 
@@ -48,26 +51,37 @@ export default function AdminBerita() {
     e.preventDefault();
     
     try {
+      let finalFormData = { ...formData };
+
+      if (formData.gambarFile) {
+        const uploadResult = await uploadFile(formData.gambarFile);
+        if (uploadResult.success) {
+          finalFormData.gambar_url = uploadResult.data.publicUrl;
+        } else {
+          throw new Error("Gagal mengunggah gambar: " + uploadResult.error);
+        }
+      }
+
       if (editingBerita) {
         const { error } = await supabase
-          .from('berita')
-          .update(formData)
-          .eq('id', editingBerita.id);
+          .from("berita")
+          .update(finalFormData)
+          .eq("id", editingBerita.id);
 
         if (error) throw error;
-        toast.success('Berita berhasil diperbarui');
+        toast.success("Berita berhasil diperbarui");
       } else {
         const { error } = await supabase
-          .from('berita')
-          .insert([formData]);
+          .from("berita")
+          .insert([finalFormData]);
 
         if (error) throw error;
-        toast.success('Berita berhasil ditambahkan');
+        toast.success("Berita berhasil ditambahkan");
       }
 
       setIsDialogOpen(false);
       setEditingBerita(null);
-      setFormData({ judul: '', deskripsi: '', isi: '', gambar_url: '' });
+      setFormData({ judul: "", deskripsi: "", isi: "", gambar_url: "", gambarFile: null });
       fetchBerita();
     } catch (error) {
       console.error('Error saving berita:', error);
@@ -79,9 +93,10 @@ export default function AdminBerita() {
     setEditingBerita(item);
     setFormData({
       judul: item.judul,
-      deskripsi: item.deskripsi || '',
+      deskripsi: item.deskripsi || "",
       isi: item.isi,
-      gambar_url: item.gambar_url || ''
+      gambar_url: item.gambar_url || "",
+      gambarFile: null,
     });
     setIsDialogOpen(true);
   };
@@ -105,7 +120,7 @@ export default function AdminBerita() {
   };
 
   const resetForm = () => {
-    setFormData({ judul: '', deskripsi: '', isi: '', gambar_url: '' });
+    setFormData({ judul: "", deskripsi: "", isi: "", gambar_url: "", gambarFile: null });
     setEditingBerita(null);
   };
 
@@ -189,14 +204,20 @@ export default function AdminBerita() {
                 </div>
                 
                 <div>
-                  <Label htmlFor="gambar_url">URL Gambar</Label>
+                  <Label htmlFor="gambar_url">Gambar</Label>
                   <Input
                     id="gambar_url"
-                    value={formData.gambar_url}
-                    onChange={(e) => setFormData({ ...formData, gambar_url: e.target.value })}
-                    placeholder="https://example.com/image.jpg"
-                    type="url"
+                    type="file"
+                    accept="image/*"
+                    onChange={(e) => setFormData({ ...formData, gambarFile: e.target.files[0] })}
                   />
+                  {formData.gambar_url && (
+                    <div className="mt-2">
+                      <p className="text-sm text-gray-500 mb-1">Gambar saat ini:</p>
+                      <img src={formData.gambar_url} alt="Preview" className="max-w-xs h-auto rounded-md" />
+                    </div>
+                  )}
+                  {uploading && <p className="text-sm text-blue-500 mt-2">Mengunggah gambar...</p>}
                 </div>
                 
                 <div className="flex justify-end gap-2 pt-4">

@@ -1,0 +1,23 @@
+User-agent: *
+Allow: /
+
+# Disallow admin pages
+Disallow: /admin/
+Disallow: /login
+
+# Allow important pages
+Allow: /
+Allow: /berita
+Allow: /sejarah
+Allow: /visi-misi
+Allow: /guru-staff
+Allow: /prestasi
+Allow: /ekstrakurikuler
+Allow: /kontak
+
+# Sitemap location
+Sitemap: https://smpn35-bandarlampung.vercel.app/sitemap.xml
+
+# Crawl delay
+Crawl-delay: 1
+

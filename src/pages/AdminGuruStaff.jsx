@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { supabase } from '../lib/supabase';
 import { Button } from '../components/ui/button';
 import { Input } from '../components/ui/input';
+import { useSupabaseStorage } from '../hooks/useSupabaseStorage';
 import { Card, CardContent, CardHeader, CardTitle } from '../components/ui/card';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '../components/ui/dialog';
 import { Label } from '../components/ui/label';
@@ -14,11 +15,13 @@ export default function AdminGuruStaff() {
   const [loading, setLoading] = useState(true);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [editingItem, setEditingItem] = useState(null);
+  const { uploadFile, uploading } = useSupabaseStorage();
   const [formData, setFormData] = useState({
-    nama: '',
-    jabatan: '',
-    mapel: '',
-    foto_url: '',
+    nama: "",
+    jabatan: "",
+    mapel: "",
+    foto_url: "",
+    fotoFile: null,
     urutan: 0
   });
   const navigate = useNavigate();
@@ -48,31 +51,42 @@ export default function AdminGuruStaff() {
     e.preventDefault();
     
     try {
+      let finalFormData = { ...formData };
+
+      if (formData.fotoFile) {
+        const uploadResult = await uploadFile(formData.fotoFile);
+        if (uploadResult.success) {
+          finalFormData.foto_url = uploadResult.data.publicUrl;
+        } else {
+          throw new Error("Gagal mengunggah foto: " + uploadResult.error);
+        }
+      }
+
       const dataToSave = {
-        ...formData,
-        urutan: parseInt(formData.urutan) || 0
+        ...finalFormData,
+        urutan: parseInt(finalFormData.urutan) || 0
       };
 
       if (editingItem) {
         const { error } = await supabase
-          .from('guru_staff')
+          .from("guru_staff")
           .update(dataToSave)
-          .eq('id', editingItem.id);
+          .eq("id", editingItem.id);
 
         if (error) throw error;
-        toast.success('Data guru/staff berhasil diperbarui');
+        toast.success("Data guru/staff berhasil diperbarui");
       } else {
         const { error } = await supabase
-          .from('guru_staff')
+          .from("guru_staff")
           .insert([dataToSave]);
 
         if (error) throw error;
-        toast.success('Data guru/staff berhasil ditambahkan');
+        toast.success("Data guru/staff berhasil ditambahkan");
       }
 
       setIsDialogOpen(false);
       setEditingItem(null);
-      setFormData({ nama: '', jabatan: '', mapel: '', foto_url: '', urutan: 0 });
+      setFormData({ nama: "", jabatan: "", mapel: "", foto_url: "", fotoFile: null, urutan: 0 });
       fetchGuruStaff();
     } catch (error) {
       console.error('Error saving guru staff:', error);
@@ -85,8 +99,9 @@ export default function AdminGuruStaff() {
     setFormData({
       nama: item.nama,
       jabatan: item.jabatan,
-      mapel: item.mapel || '',
-      foto_url: item.foto_url || '',
+      mapel: item.mapel || "",
+      foto_url: item.foto_url || "",
+      fotoFile: null,
       urutan: item.urutan || 0
     });
     setIsDialogOpen(true);
@@ -111,7 +126,7 @@ export default function AdminGuruStaff() {
   };
 
   const resetForm = () => {
-    setFormData({ nama: '', jabatan: '', mapel: '', foto_url: '', urutan: 0 });
+    setFormData({ nama: "", jabatan: "", mapel: "", foto_url: "", fotoFile: null, urutan: 0 });
     setEditingItem(null);
   };
 
@@ -193,14 +208,20 @@ export default function AdminGuruStaff() {
                 </div>
                 
                 <div>
-                  <Label htmlFor="foto_url">URL Foto</Label>
+                  <Label htmlFor="foto_url">Foto</Label>
                   <Input
                     id="foto_url"
-                    value={formData.foto_url}
-                    onChange={(e) => setFormData({ ...formData, foto_url: e.target.value })}
-                    placeholder="https://example.com/photo.jpg"
-                    type="url"
+                    type="file"
+                    accept="image/*"
+                    onChange={(e) => setFormData({ ...formData, fotoFile: e.target.files[0] })}
                   />
+                  {formData.foto_url && (
+                    <div className="mt-2">
+                      <p className="text-sm text-gray-500 mb-1">Foto saat ini:</p>
+                      <img src={formData.foto_url} alt="Preview" className="max-w-xs h-auto rounded-md" />
+                    </div>
+                  )}
+                  {uploading && <p className="text-sm text-blue-500 mt-2">Mengunggah foto...</p>}
                 </div>
                 
                 <div>

@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { supabase } from '../lib/supabase';
 import { Button } from '../components/ui/button';
 import { Input } from '../components/ui/input';
+import { useSupabaseStorage } from '../hooks/useSupabaseStorage';
 import { Textarea } from '../components/ui/textarea';
 import { Card, CardContent, CardHeader, CardTitle } from '../components/ui/card';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '../components/ui/dialog';
@@ -16,14 +17,16 @@ export default function AdminEkstrakurikuler() {
   const [loading, setLoading] = useState(true);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [editingItem, setEditingItem] = useState(null);
+  const { uploadFile, uploading } = useSupabaseStorage();
   const [formData, setFormData] = useState({
-    nama: '',
-    deskripsi: '',
-    foto_url: '',
-    kategori: '',
-    jadwal: '',
-    pembina: '',
-    tempat: ''
+    nama: "",
+    deskripsi: "",
+    foto_url: "",
+    fotoFile: null,
+    kategori: "",
+    jadwal: "",
+    pembina: "",
+    tempat: ""
   });
   const navigate = useNavigate();
 
@@ -62,33 +65,45 @@ export default function AdminEkstrakurikuler() {
     e.preventDefault();
     
     try {
+      let finalFormData = { ...formData };
+
+      if (formData.fotoFile) {
+        const uploadResult = await uploadFile(formData.fotoFile);
+        if (uploadResult.success) {
+          finalFormData.foto_url = uploadResult.data.publicUrl;
+        } else {
+          throw new Error("Gagal mengunggah foto: " + uploadResult.error);
+        }
+      }
+
       if (editingItem) {
         const { error } = await supabase
-          .from('ekstrakurikuler')
-          .update(formData)
-          .eq('id', editingItem.id);
+          .from("ekstrakurikuler")
+          .update(finalFormData)
+          .eq("id", editingItem.id);
 
         if (error) throw error;
-        toast.success('Ekstrakurikuler berhasil diperbarui');
+        toast.success("Ekstrakurikuler berhasil diperbarui");
       } else {
         const { error } = await supabase
-          .from('ekstrakurikuler')
-          .insert([formData]);
+          .from("ekstrakurikuler")
+          .insert([finalFormData]);
 
         if (error) throw error;
-        toast.success('Ekstrakurikuler berhasil ditambahkan');
+        toast.success("Ekstrakurikuler berhasil ditambahkan");
       }
 
       setIsDialogOpen(false);
       setEditingItem(null);
       setFormData({ 
-        nama: '', 
-        deskripsi: '', 
-        foto_url: '', 
-        kategori: '', 
-        jadwal: '', 
-        pembina: '', 
-        tempat: '' 
+        nama: "", 
+        deskripsi: "", 
+        foto_url: "", 
+        fotoFile: null, 
+        kategori: "", 
+        jadwal: "", 
+        pembina: "", 
+        tempat: "" 
       });
       fetchEkstrakurikuler();
     } catch (error) {
@@ -101,12 +116,13 @@ export default function AdminEkstrakurikuler() {
     setEditingItem(item);
     setFormData({
       nama: item.nama,
-      deskripsi: item.deskripsi || '',
-      foto_url: item.foto_url || '',
+      deskripsi: item.deskripsi || "",
+      foto_url: item.foto_url || "",
+      fotoFile: null,
       kategori: item.kategori,
-      jadwal: item.jadwal || '',
-      pembina: item.pembina || '',
-      tempat: item.tempat || ''
+      jadwal: item.jadwal || "",
+      pembina: item.pembina || "",
+      tempat: item.tempat || ""
     });
     setIsDialogOpen(true);
   };
@@ -128,16 +144,16 @@ export default function AdminEkstrakurikuler() {
       toast.error('Gagal menghapus ekstrakurikuler');
     }
   };
-
   const resetForm = () => {
     setFormData({ 
-      nama: '', 
-      deskripsi: '', 
-      foto_url: '', 
-      kategori: '', 
-      jadwal: '', 
-      pembina: '', 
-      tempat: '' 
+      nama: "", 
+      deskripsi: "", 
+      foto_url: "", 
+      fotoFile: null, 
+      kategori: "", 
+      jadwal: "", 
+      pembina: "", 
+      tempat: "" 
     });
     setEditingItem(null);
   };
@@ -245,14 +261,20 @@ export default function AdminEkstrakurikuler() {
                 </div>
                 
                 <div>
-                  <Label htmlFor="foto_url">URL Foto</Label>
+                  <Label htmlFor="foto_url">Foto</Label>
                   <Input
                     id="foto_url"
-                    value={formData.foto_url}
-                    onChange={(e) => setFormData({ ...formData, foto_url: e.target.value })}
-                    placeholder="https://example.com/photo.jpg"
-                    type="url"
+                    type="file"
+                    accept="image/*"
+                    onChange={(e) => setFormData({ ...formData, fotoFile: e.target.files[0] })}
                   />
+                  {formData.foto_url && (
+                    <div className="mt-2">
+                      <p className="text-sm text-gray-500 mb-1">Foto saat ini:</p>
+                      <img src={formData.foto_url} alt="Preview" className="max-w-xs h-auto rounded-md" />
+                    </div>
+                  )}
+                  {uploading && <p className="text-sm text-blue-500 mt-2">Mengunggah foto...</p>}
                 </div>
                 
                 <div className="grid grid-cols-2 gap-4">

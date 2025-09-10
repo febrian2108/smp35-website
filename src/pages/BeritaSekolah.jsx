@@ -11,6 +11,28 @@ const BeritaSekolah = () => {
   const [sortOrder, setSortOrder] = useState('terbaru');
 
   useEffect(() => {
+    // Update document title and meta tags for SEO
+    document.title = 'Berita Sekolah - SMP Negeri 35 Bandar Lampung';
+    
+    // Update meta description
+    const metaDescription = document.querySelector('meta[name="description"]');
+    if (metaDescription) {
+      metaDescription.setAttribute('content', 'Berita terbaru dan informasi kegiatan SMP Negeri 35 Bandar Lampung. Dapatkan update terkini tentang prestasi siswa, kegiatan sekolah, dan pengumuman penting.');
+    }
+
+    // Update Open Graph tags
+    const ogTitle = document.querySelector('meta[property="og:title"]');
+    if (ogTitle) {
+      ogTitle.setAttribute('content', 'Berita Sekolah - SMP Negeri 35 Bandar Lampung');
+    }
+
+    const ogDescription = document.querySelector('meta[property="og:description"]');
+    if (ogDescription) {
+      ogDescription.setAttribute('content', 'Berita terbaru dan informasi kegiatan SMP Negeri 35 Bandar Lampung. Dapatkan update terkini tentang prestasi siswa, kegiatan sekolah, dan pengumuman penting.');
+    }
+  }, []);
+
+  useEffect(() => {
     if (berita.length > 0) {
       const sorted = [...berita].sort((a, b) => {
         const dateA = new Date(a.tanggal);

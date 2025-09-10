@@ -2,8 +2,31 @@ import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Instagram, ArrowRight, Star, Users, Trophy, Zap } from 'lucide-react';
 import Footer from '../components/Footer';
+import { useEffect } from 'react';
 
 const Beranda = () => {
+  useEffect(() => {
+    // Update document title and meta tags for SEO
+    document.title = 'SMP Negeri 35 Bandar Lampung - Sekolah Berkualitas di Bandar Lampung';
+    
+    // Update meta description
+    const metaDescription = document.querySelector('meta[name="description"]');
+    if (metaDescription) {
+      metaDescription.setAttribute('content', 'SMP Negeri 35 Bandar Lampung adalah sekolah menengah pertama berkualitas yang berkomitmen membangun generasi berprestasi, inovatif, semangat, dan aktif. Informasi lengkap profil sekolah, berita, guru, prestasi siswa.');
+    }
+
+    // Update Open Graph tags
+    const ogTitle = document.querySelector('meta[property="og:title"]');
+    if (ogTitle) {
+      ogTitle.setAttribute('content', 'SMP Negeri 35 Bandar Lampung - Sekolah Berkualitas di Bandar Lampung');
+    }
+
+    const ogDescription = document.querySelector('meta[property="og:description"]');
+    if (ogDescription) {
+      ogDescription.setAttribute('content', 'SMP Negeri 35 Bandar Lampung adalah sekolah menengah pertama berkualitas yang berkomitmen membangun generasi berprestasi, inovatif, semangat, dan aktif.');
+    }
+  }, []);
+
   const values = [
     {
       icon: <Trophy className="h-8 w-8 text-yellow-500" />,
