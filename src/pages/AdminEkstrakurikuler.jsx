@@ -12,6 +12,23 @@ import { Trash2, Edit, Plus, Star, ArrowLeft } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'sonner';
 
+// Komponen stat card reusable
+const StatCard = ({ label, value, icon: Icon, bgColor, iconColor }) => (
+  <Card>
+    <CardContent className="p-6">
+      <div className="flex items-center justify-between">
+        <div>
+          <p className="text-sm font-medium text-gray-600">{label}</p>
+          <p className="text-2xl font-bold text-gray-900">{value}</p>
+        </div>
+        <div className={`h-12 w-12 ${bgColor} rounded-lg flex items-center justify-center`}>
+          <Icon className={`h-6 w-6 ${iconColor}`} />
+        </div>
+      </div>
+    </CardContent>
+  </Card>
+);
+
 export default function AdminEkstrakurikuler() {
   const [ekstrakurikuler, setEkstrakurikuler] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -39,6 +56,16 @@ export default function AdminEkstrakurikuler() {
     'Karakter',
     'Kesehatan'
   ];
+
+  const kategoriColors = {
+    'Akademik': { bg: 'bg-violet-200', text: 'text-violet-700' },
+    'Seni': { bg: 'bg-purple-100', text: 'text-purple-600' },
+    'Olahraga': { bg: 'bg-green-100', text: 'text-green-600' },
+    'Organisasi': { bg: 'bg-indigo-100', text: 'text-indigo-600' },
+    'Keagamaan': { bg: 'bg-pink-100', text: 'text-pink-600' },
+    'Karakter': { bg: 'bg-yellow-100', text: 'text-yellow-600' },
+    'Kesehatan': { bg: 'bg-red-100', text: 'text-red-600' }
+  };
 
   useEffect(() => {
     fetchEkstrakurikuler();
@@ -95,16 +122,7 @@ export default function AdminEkstrakurikuler() {
 
       setIsDialogOpen(false);
       setEditingItem(null);
-      setFormData({ 
-        nama: "", 
-        deskripsi: "", 
-        foto_url: "", 
-        fotoFile: null, 
-        kategori: "", 
-        jadwal: "", 
-        pembina: "", 
-        tempat: "" 
-      });
+      resetForm();
       fetchEkstrakurikuler();
     } catch (error) {
       console.error('Error saving ekstrakurikuler:', error);
@@ -144,6 +162,7 @@ export default function AdminEkstrakurikuler() {
       toast.error('Gagal menghapus ekstrakurikuler');
     }
   };
+
   const resetForm = () => {
     setFormData({ 
       nama: "", 
@@ -160,13 +179,13 @@ export default function AdminEkstrakurikuler() {
 
   const getKategoriColor = (kategori) => {
     const colors = {
-      'Akademik': 'bg-blue-100 text-blue-800',
+      'Akademik': 'bg-violet-100 text-violet-800',
       'Seni': 'bg-purple-100 text-purple-800',
       'Olahraga': 'bg-green-100 text-green-800',
-      'Teknologi': 'bg-indigo-100 text-indigo-800',
-      'Sosial': 'bg-pink-100 text-pink-800',
+      'Organisasi': 'bg-indigo-100 text-indigo-800',
+      'Keagamaan': 'bg-pink-100 text-pink-800',
       'Karakter': 'bg-yellow-100 text-yellow-800',
-      'Media': 'bg-red-100 text-red-800'
+      'Kesehatan': 'bg-red-100 text-red-800'
     };
     return colors[kategori] || 'bg-gray-100 text-gray-800';
   };
@@ -181,6 +200,24 @@ export default function AdminEkstrakurikuler() {
       </div>
     );
   }
+
+  // Data stats otomatis dari kategoriOptions
+  const stats = [
+    {
+      label: "Total Ekstrakurikuler",
+      value: ekstrakurikuler.length,
+      icon: Star,
+      bgColor: "bg-cyan-100",
+      iconColor: "text-cyan-600",
+    },
+    ...kategoriOptions.map((kategori) => ({
+      label: kategori,
+      value: ekstrakurikuler.filter((item) => item.kategori === kategori).length,
+      icon: Star,
+      bgColor: kategoriColors[kategori]?.bg || "bg-gray-100",
+      iconColor: kategoriColors[kategori]?.text || "text-gray-600",
+    }))
+  ];
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -328,67 +365,9 @@ export default function AdminEkstrakurikuler() {
 
         {/* Stats */}
         <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
-          <Card>
-            <CardContent className="p-6">
-              <div className="flex items-center justify-between">
-                <div>
-                  <p className="text-sm font-medium text-gray-600">Total Ekstrakurikuler</p>
-                  <p className="text-2xl font-bold text-gray-900">{ekstrakurikuler.length}</p>
-                </div>
-                <div className="h-12 w-12 bg-purple-100 rounded-lg flex items-center justify-center">
-                  <Star className="h-6 w-6 text-purple-600" />
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-          
-          <Card>
-            <CardContent className="p-6">
-              <div className="flex items-center justify-between">
-                <div>
-                  <p className="text-sm font-medium text-gray-600">Olahraga</p>
-                  <p className="text-2xl font-bold text-gray-900">
-                    {ekstrakurikuler.filter(item => item.kategori === 'Olahraga').length}
-                  </p>
-                </div>
-                <div className="h-12 w-12 bg-green-100 rounded-lg flex items-center justify-center">
-                  <Star className="h-6 w-6 text-green-600" />
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-          
-          <Card>
-            <CardContent className="p-6">
-              <div className="flex items-center justify-between">
-                <div>
-                  <p className="text-sm font-medium text-gray-600">Seni</p>
-                  <p className="text-2xl font-bold text-gray-900">
-                    {ekstrakurikuler.filter(item => item.kategori === 'Seni').length}
-                  </p>
-                </div>
-                <div className="h-12 w-12 bg-purple-100 rounded-lg flex items-center justify-center">
-                  <Star className="h-6 w-6 text-purple-600" />
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-          
-          <Card>
-            <CardContent className="p-6">
-              <div className="flex items-center justify-between">
-                <div>
-                  <p className="text-sm font-medium text-gray-600">Akademik</p>
-                  <p className="text-2xl font-bold text-gray-900">
-                    {ekstrakurikuler.filter(item => item.kategori === 'Akademik').length}
-                  </p>
-                </div>
-                <div className="h-12 w-12 bg-blue-100 rounded-lg flex items-center justify-center">
-                  <Star className="h-6 w-6 text-blue-600" />
-                </div>
-              </div>
-            </CardContent>
-          </Card>
+          {stats.map((stat, idx) => (
+            <StatCard key={idx} {...stat} />
+          ))}
         </div>
 
         {/* Ekstrakurikuler List */}
@@ -487,4 +466,3 @@ export default function AdminEkstrakurikuler() {
     </div>
   );
 }
-
