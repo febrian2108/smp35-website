@@ -1,6 +1,6 @@
 import Footer from '../components/Footer';
 import { useState } from 'react';
-import { Users, Clock, MapPin, Star, Heart, Music, Palette, Trophy, BookOpen } from 'lucide-react';
+import { Users, Clock, MapPin, Star, Heart, Palette, Trophy, BookOpen, HeartPlus, User, Menu } from 'lucide-react';
 import { useFirestore } from '../hooks/useFirestore';
 
 const Ekstrakurikuler = () => {
@@ -94,18 +94,18 @@ const Ekstrakurikuler = () => {
   const dataToShow = ekstrakurikulerData.length > 0 ? ekstrakurikulerData : defaultData;
 
   const categories = [
-    { id: 'all', name: 'Semua', icon: <Star className="h-4 w-4" /> },
+    { id: 'all', name: 'Semua', icon: <Menu className="h-4 w-4" /> },
     { id: 'Akademik', name: 'Akademik', icon: <BookOpen className="h-4 w-4" /> },
     { id: 'Seni', name: 'Seni', icon: <Palette className="h-4 w-4" /> },
     { id: 'Olahraga', name: 'Olahraga', icon: <Trophy className="h-4 w-4" /> },
-    { id: 'Teknologi', name: 'Teknologi', icon: <Users className="h-4 w-4" /> },
-    { id: 'Sosial', name: 'Sosial', icon: <Heart className="h-4 w-4" /> },
+    { id: 'Organisasi', name: 'Organisasi', icon: <Users className="h-4 w-4" /> },
+    { id: 'Keagamaan', name: 'Keagamaan', icon: <User className="h-4 w-4" /> },
     { id: 'Karakter', name: 'Karakter', icon: <Star className="h-4 w-4" /> },
-    { id: 'Media', name: 'Media', icon: <Music className="h-4 w-4" /> }
+    { id: 'Kesehatan', name: 'Kesehatan', icon: <HeartPlus  className="h-4 w-4" /> }
   ];
 
-  const filteredData = selectedCategory === 'all' 
-    ? dataToShow 
+  const filteredData = selectedCategory === 'all'
+    ? dataToShow
     : dataToShow.filter(item => item.kategori === selectedCategory);
 
   const getCategoryColor = (kategori) => {
@@ -113,10 +113,10 @@ const Ekstrakurikuler = () => {
       case 'Akademik': return 'bg-blue-100 text-blue-800 border-blue-200';
       case 'Seni': return 'bg-purple-100 text-purple-800 border-purple-200';
       case 'Olahraga': return 'bg-green-100 text-green-800 border-green-200';
-      case 'Teknologi': return 'bg-orange-100 text-orange-800 border-orange-200';
-      case 'Sosial': return 'bg-red-100 text-red-800 border-red-200';
+      case 'Organisasi': return 'bg-orange-100 text-orange-800 border-orange-200';
+      case 'Keagamaan': return 'bg-red-100 text-red-800 border-red-200';
       case 'Karakter': return 'bg-yellow-100 text-yellow-800 border-yellow-200';
-      case 'Media': return 'bg-indigo-100 text-indigo-800 border-indigo-200';
+      case 'Kesehatan': return 'bg-indigo-100 text-indigo-800 border-indigo-200';
       default: return 'bg-gray-100 text-gray-800 border-gray-200';
     }
   };
@@ -126,10 +126,10 @@ const Ekstrakurikuler = () => {
       case 'Akademik': return <BookOpen className="h-5 w-5" />;
       case 'Seni': return <Palette className="h-5 w-5" />;
       case 'Olahraga': return <Trophy className="h-5 w-5" />;
-      case 'Teknologi': return <Users className="h-5 w-5" />;
-      case 'Sosial': return <Heart className="h-5 w-5" />;
+      case 'Organisasi': return <Users className="h-5 w-5" />;
+      case 'Keagamaan': return <User className="h-5 w-5" />;
       case 'Karakter': return <Star className="h-5 w-5" />;
-      case 'Media': return <Music className="h-5 w-5" />;
+      case 'Kesehatan': return <HeartPlus className="h-5 w-5" />;
       default: return <Star className="h-5 w-5" />;
     }
   };
@@ -166,11 +166,10 @@ const Ekstrakurikuler = () => {
               <button
                 key={category.id}
                 onClick={() => setSelectedCategory(category.id)}
-                className={`inline-flex items-center space-x-2 px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
-                  selectedCategory === category.id
+                className={`inline-flex items-center space-x-2 px-4 py-2 rounded-lg text-sm font-medium transition-colors ${selectedCategory === category.id
                     ? 'bg-blue-600 text-white'
                     : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-                }`}
+                  }`}
               >
                 {category.icon}
                 <span>{category.name}</span>
@@ -198,15 +197,15 @@ const Ekstrakurikuler = () => {
           ) : (
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
               {filteredData.map((ekskul) => (
-                <div 
+                <div
                   key={ekskul.id}
                   className="bg-white rounded-xl shadow-md hover:shadow-lg transition-shadow duration-300 overflow-hidden group"
                 >
                   {/* Image */}
                   <div className="relative h-48 bg-gradient-to-br from-blue-400 to-blue-600 overflow-hidden">
                     {ekskul.fotoUrl ? (
-                      <img 
-                        src={ekskul.fotoUrl} 
+                      <img
+                        src={ekskul.fotoUrl}
                         alt={ekskul.nama}
                         className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                       />
@@ -218,7 +217,7 @@ const Ekstrakurikuler = () => {
                       </div>
                     )}
                     <div className="absolute inset-0 bg-black/20 group-hover:bg-black/30 transition-colors"></div>
-                    
+
                     {/* Category Badge */}
                     <div className="absolute top-4 left-4">
                       <span className={`inline-flex items-center space-x-1 px-3 py-1 rounded-full text-sm font-medium border ${getCategoryColor(ekskul.kategori)}`}>
@@ -248,14 +247,14 @@ const Ekstrakurikuler = () => {
                           <span>{ekskul.jadwal}</span>
                         </div>
                       )}
-                      
+
                       {ekskul.tempat && (
                         <div className="flex items-center space-x-2">
                           <MapPin className="h-4 w-4 text-green-500" />
                           <span>{ekskul.tempat}</span>
                         </div>
                       )}
-                      
+
                       {ekskul.pembina && (
                         <div className="flex items-center space-x-2">
                           <Users className="h-4 w-4 text-purple-500" />
@@ -278,7 +277,7 @@ const Ekstrakurikuler = () => {
             <h2 className="text-3xl font-bold text-gray-900 mb-8">
               Manfaat Mengikuti Ekstrakurikuler
             </h2>
-            
+
             <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
               {[
                 {
@@ -323,7 +322,7 @@ const Ekstrakurikuler = () => {
 
       {/* Footer */}
       <Footer />
-      
+
     </div>
   );
 };

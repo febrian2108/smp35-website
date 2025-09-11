@@ -150,30 +150,6 @@ const PrestasiSiswa = () => {
         </div>
       </section>
 
-      {/* Stats Section */}
-      <section className="py-12 bg-white">
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid md:grid-cols-4 gap-8 text-center">
-            <div className="space-y-2">
-              <div className="text-3xl font-bold text-red-600">15+</div>
-              <div className="text-gray-700 font-medium">Prestasi Nasional</div>
-            </div>
-            <div className="space-y-2">
-              <div className="text-3xl font-bold text-blue-600">30+</div>
-              <div className="text-gray-700 font-medium">Prestasi Provinsi</div>
-            </div>
-            <div className="space-y-2">
-              <div className="text-3xl font-bold text-green-600">50+</div>
-              <div className="text-gray-700 font-medium">Prestasi Kota</div>
-            </div>
-            <div className="space-y-2">
-              <div className="text-3xl font-bold text-purple-600">100+</div>
-              <div className="text-gray-700 font-medium">Total Prestasi</div>
-            </div>
-          </div>
-        </div>
-      </section>
-
       {/* Filter Section */}
       <section className="py-8 bg-white border-b">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
