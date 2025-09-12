@@ -78,7 +78,7 @@ const Navbar = () => {
           {/* Logo */}
           <Link to="/" className="flex items-center space-x-3" onClick={closeAllDropdowns}>
             <img 
-              src="/assets/Logo-Smp-Negeri-35-Bdl.png" 
+              src="/assets/favicon.ico" 
               alt="Logo SMP Negeri 35 Bandar Lampung" 
               className="h-10 w-10 rounded-full object-cover"
             />

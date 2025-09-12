@@ -10,7 +10,7 @@ const Footer = () => {
           <div className="flex items-center justify-center mb-6">
             <div className="bg-blue-600 rounded-full p-3 mr-4">
               <img
-                src="/assets/Logo-Smp-Negeri-35-Bdl.png"
+                src="/assets/favicon.ico"
                 alt="Logo SMP Negeri 35"
                 className="w-12 h-12 object-contain"
                 onError={(e) => {
