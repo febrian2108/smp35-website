@@ -16,7 +16,7 @@ Allow: /ekstrakurikuler
 Allow: /kontak
 
 # Sitemap location
-Sitemap: https://smpn35-bandarlampung.vercel.app/sitemap.xml
+Sitemap: https://smpn35bandarlampung.vercel.app/sitemap.xml
 
 # Crawl delay
 Crawl-delay: 1
