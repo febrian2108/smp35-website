@@ -142,30 +142,6 @@ const GuruStaff = () => {
         </div>
       </section>
 
-      {/* Stats Section */}
-      <section className="py-12 bg-white">
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid md:grid-cols-4 gap-8 text-center">
-            <div className="space-y-2">
-              <div className="text-3xl font-bold text-blue-600">1</div>
-              <div className="text-gray-700 font-medium">Kepala Sekolah</div>
-            </div>
-            <div className="space-y-2">
-              <div className="text-3xl font-bold text-orange-600">2</div>
-              <div className="text-gray-700 font-medium">Wakil Kepala Sekolah</div>
-            </div>
-            <div className="space-y-2">
-              <div className="text-3xl font-bold text-blue-600">35+</div>
-              <div className="text-gray-700 font-medium">Guru</div>
-            </div>
-            <div className="space-y-2">
-              <div className="text-3xl font-bold text-green-600">15+</div>
-              <div className="text-gray-700 font-medium">Staff</div>
-            </div>
-          </div>
-        </div>
-      </section>
-
       {/* Team Grid */}
       <section className="py-16">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
@@ -177,19 +153,22 @@ const GuruStaff = () => {
               >
                 {/* Photo */}
                 <div className="relative h-48 bg-gradient-to-br from-blue-400 to-blue-600 flex items-center justify-center">
-                  {person.fotoUrl ? (
+                  {person.fotoUrl || person.foto_url ? (
                     <img 
-                      src={person.fotoUrl} 
+                      src={person.fotoUrl || person.foto_url} 
                       alt={person.nama}
                       className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                      onError={(e) => {
+                        e.target.style.display = 'none';
+                        e.target.nextSibling.style.display = 'flex';
+                      }}
                     />
-                  ) : (
-                    <div className="w-20 h-20 bg-white/20 rounded-full flex items-center justify-center">
-                      <span className="text-2xl font-bold text-white">
-                        {getInitials(person.nama)}
-                      </span>
-                    </div>
-                  )}
+                  ) : null}
+                  <div className={`w-20 h-20 bg-white/20 rounded-full flex items-center justify-center ${person.fotoUrl || person.foto_url ? 'hidden' : ''}`}>
+                    <span className="text-2xl font-bold text-white">
+                      {getInitials(person.nama)}
+                    </span>
+                  </div>
                   <div className="absolute inset-0 bg-black/10 group-hover:bg-black/20 transition-colors"></div>
                 </div>
 

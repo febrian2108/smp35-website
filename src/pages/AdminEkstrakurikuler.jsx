@@ -95,13 +95,16 @@ export default function AdminEkstrakurikuler() {
       let finalFormData = { ...formData };
 
       if (formData.fotoFile) {
-        const uploadResult = await uploadFile(formData.fotoFile);
+        const uploadResult = await uploadFile(formData.fotoFile, 'images', `ekstrakurikuler/${Date.now()}-${formData.fotoFile.name}`);
         if (uploadResult.success) {
           finalFormData.foto_url = uploadResult.data.publicUrl;
         } else {
           throw new Error("Gagal mengunggah foto: " + uploadResult.error);
         }
       }
+
+      // Remove file object from final data
+      delete finalFormData.fotoFile;
 
       if (editingItem) {
         const { error } = await supabase
@@ -110,23 +113,32 @@ export default function AdminEkstrakurikuler() {
           .eq("id", editingItem.id);
 
         if (error) throw error;
-        toast.success("Ekstrakurikuler berhasil diperbarui");
+        toast.success("Data ekstrakurikuler berhasil diperbarui");
       } else {
         const { error } = await supabase
           .from("ekstrakurikuler")
           .insert([finalFormData]);
 
         if (error) throw error;
-        toast.success("Ekstrakurikuler berhasil ditambahkan");
+        toast.success("Data ekstrakurikuler berhasil ditambahkan");
       }
 
       setIsDialogOpen(false);
       setEditingItem(null);
-      resetForm();
+      setFormData({ 
+        nama: "", 
+        deskripsi: "", 
+        foto_url: "", 
+        fotoFile: null, 
+        kategori: "", 
+        jadwal: "", 
+        pembina: "", 
+        tempat: "" 
+      });
       fetchEkstrakurikuler();
     } catch (error) {
       console.error('Error saving ekstrakurikuler:', error);
-      toast.error('Gagal menyimpan ekstrakurikuler');
+      toast.error('Gagal menyimpan data ekstrakurikuler');
     }
   };
 

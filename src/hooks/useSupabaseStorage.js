@@ -15,22 +15,44 @@ export const useSupabaseStorage = () => {
       const fileName = path || `${Date.now()}-${Math.random().toString(36).substring(2)}.${fileExt}`;
       const filePath = `${fileName}`;
 
+      // Determine bucket based on file type or explicit bucket parameter
+      let finalBucket = bucket;
+      if (file.type.includes('pdf') || file.type.includes('document') || 
+          file.name.toLowerCase().endsWith('.pdf') || 
+          file.name.toLowerCase().endsWith('.doc') || 
+          file.name.toLowerCase().endsWith('.docx')) {
+        finalBucket = 'documents';
+      }
+
+      console.log('Uploading file:', {
+        name: file.name,
+        type: file.type,
+        size: file.size,
+        bucket: finalBucket,
+        path: filePath
+      });
+
       // Upload file to Supabase Storage
       const { data, error } = await supabase.storage
-        .from(bucket)
+        .from(finalBucket)
         .upload(filePath, file, {
           cacheControl: '3600',
-          upsert: false
+          upsert: true // Allow overwrite if file exists
         });
 
       if (error) {
+        console.error('Supabase upload error:', error);
         throw error;
       }
 
+      console.log('Upload successful:', data);
+
       // Get public URL
       const { data: { publicUrl } } = supabase.storage
-        .from(bucket)
+        .from(finalBucket)
         .getPublicUrl(filePath);
+
+      console.log('Public URL:', publicUrl);
 
       setUploadProgress(100);
       
@@ -39,7 +61,11 @@ export const useSupabaseStorage = () => {
         data: {
           path: data.path,
           fullPath: data.fullPath,
-          publicUrl: publicUrl
+          publicUrl: publicUrl,
+          bucket: finalBucket,
+          fileName: file.name,
+          fileType: file.type,
+          fileSize: file.size
         }
       };
     } catch (error) {
@@ -52,6 +78,14 @@ export const useSupabaseStorage = () => {
       setUploading(false);
       setUploadProgress(0);
     }
+  };
+
+  const uploadImage = async (file, folder = 'news') => {
+    return await uploadFile(file, 'images', `${folder}/${Date.now()}-${file.name}`);
+  };
+
+  const uploadDocument = async (file, folder = 'news') => {
+    return await uploadFile(file, 'documents', `${folder}/${Date.now()}-${file.name}`);
   };
 
   const deleteFile = async (filePath, bucket = 'images') => {
@@ -120,6 +154,8 @@ export const useSupabaseStorage = () => {
     uploading,
     uploadProgress,
     uploadFile,
+    uploadImage,
+    uploadDocument,
     deleteFile,
     getPublicUrl,
     listFiles,

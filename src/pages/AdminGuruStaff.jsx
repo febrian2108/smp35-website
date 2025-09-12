@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { supabase } from '../lib/supabase';
 import { Button } from '../components/ui/button';
 import { Input } from '../components/ui/input';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../components/ui/select';
 import { useSupabaseStorage } from '../hooks/useSupabaseStorage';
 import { Card, CardContent, CardHeader, CardTitle } from '../components/ui/card';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '../components/ui/dialog';
@@ -22,9 +23,24 @@ export default function AdminGuruStaff() {
     mapel: "",
     foto_url: "",
     fotoFile: null,
-    urutan: 0
   });
   const navigate = useNavigate();
+
+  // Daftar jabatan dengan urutan prioritas
+  const jabatanOptions = [
+    { value: "Kepala Sekolah", label: "Kepala Sekolah", urutan: 1 },
+    { value: "Wakil Kepala Sekolah Kurikulum", label: "Wakil Kepala Sekolah Kurikulum", urutan: 2 },
+    { value: "Wakil Kepala Sekolah Kesiswaan", label: "Wakil Kepala Sekolah Kesiswaan", urutan: 3 },
+    { value: "Wakil Kepala Sekolah Sarana dan Prasarana", label: "Wakil Kepala Sekolah Sarana dan Prasarana", urutan: 4 },
+    { value: "Wakil Kepala Sekolah Humas", label: "Wakil Kepala Sekolah Humas", urutan: 5 },
+    { value: "Guru", label: "Guru", urutan: 6 },
+    { value: "Staff", label: "Staff", urutan: 7 }
+  ];
+
+  const getUrutanByJabatan = (jabatan) => {
+    const found = jabatanOptions.find(option => option.value === jabatan);
+    return found ? found.urutan : 999;
+  };
 
   useEffect(() => {
     fetchGuruStaff();
@@ -38,7 +54,16 @@ export default function AdminGuruStaff() {
         .order('urutan', { ascending: true });
 
       if (error) throw error;
-      setGuruStaff(data || []);
+      
+      // Sort by jabatan priority if urutan is the same
+      const sortedData = (data || []).sort((a, b) => {
+        if (a.urutan === b.urutan) {
+          return getUrutanByJabatan(a.jabatan) - getUrutanByJabatan(b.jabatan);
+        }
+        return a.urutan - b.urutan;
+      });
+      
+      setGuruStaff(sortedData);
     } catch (error) {
       console.error('Error fetching guru staff:', error);
       toast.error('Gagal memuat data guru & staff');
@@ -54,7 +79,7 @@ export default function AdminGuruStaff() {
       let finalFormData = { ...formData };
 
       if (formData.fotoFile) {
-        const uploadResult = await uploadFile(formData.fotoFile);
+        const uploadResult = await uploadFile(formData.fotoFile, 'images', `guru-staff/${Date.now()}-${formData.fotoFile.name}`);
         if (uploadResult.success) {
           finalFormData.foto_url = uploadResult.data.publicUrl;
         } else {
@@ -62,9 +87,15 @@ export default function AdminGuruStaff() {
         }
       }
 
+      // Remove file object from final data
+      delete finalFormData.fotoFile;
+
+      // Set urutan based on jabatan
+      const urutan = getUrutanByJabatan(finalFormData.jabatan);
+
       const dataToSave = {
         ...finalFormData,
-        urutan: parseInt(finalFormData.urutan) || 0
+        urutan: urutan
       };
 
       if (editingItem) {
@@ -86,7 +117,7 @@ export default function AdminGuruStaff() {
 
       setIsDialogOpen(false);
       setEditingItem(null);
-      setFormData({ nama: "", jabatan: "", mapel: "", foto_url: "", fotoFile: null, urutan: 0 });
+      setFormData({ nama: "", jabatan: "", mapel: "", foto_url: "", fotoFile: null });
       fetchGuruStaff();
     } catch (error) {
       console.error('Error saving guru staff:', error);
@@ -102,7 +133,6 @@ export default function AdminGuruStaff() {
       mapel: item.mapel || "",
       foto_url: item.foto_url || "",
       fotoFile: null,
-      urutan: item.urutan || 0
     });
     setIsDialogOpen(true);
   };
@@ -126,7 +156,7 @@ export default function AdminGuruStaff() {
   };
 
   const resetForm = () => {
-    setFormData({ nama: "", jabatan: "", mapel: "", foto_url: "", fotoFile: null, urutan: 0 });
+    setFormData({ nama: "", jabatan: "", mapel: "", foto_url: "", fotoFile: null });
     setEditingItem(null);
   };
 
@@ -188,13 +218,25 @@ export default function AdminGuruStaff() {
                 
                 <div>
                   <Label htmlFor="jabatan">Jabatan</Label>
-                  <Input
-                    id="jabatan"
-                    value={formData.jabatan}
-                    onChange={(e) => setFormData({ ...formData, jabatan: e.target.value })}
-                    placeholder="Contoh: Kepala Sekolah, Guru, Staff TU"
+                  <Select 
+                    value={formData.jabatan} 
+                    onValueChange={(value) => setFormData({ ...formData, jabatan: value })}
                     required
-                  />
+                  >
+                    <SelectTrigger>
+                      <SelectValue placeholder="Pilih jabatan" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {jabatanOptions.map((option) => (
+                        <SelectItem key={option.value} value={option.value}>
+                          {option.label}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                  <p className="text-sm text-gray-500 mt-1">
+                    Urutan tampil akan otomatis disesuaikan berdasarkan jabatan
+                  </p>
                 </div>
                 
                 <div>
@@ -224,21 +266,6 @@ export default function AdminGuruStaff() {
                   {uploading && <p className="text-sm text-blue-500 mt-2">Mengunggah foto...</p>}
                 </div>
                 
-                <div>
-                  <Label htmlFor="urutan">Urutan Tampil</Label>
-                  <Input
-                    id="urutan"
-                    type="number"
-                    value={formData.urutan}
-                    onChange={(e) => setFormData({ ...formData, urutan: e.target.value })}
-                    placeholder="0"
-                    min="0"
-                  />
-                  <p className="text-sm text-gray-500 mt-1">
-                    Angka yang lebih kecil akan ditampilkan lebih dulu
-                  </p>
-                </div>
-                
                 <div className="flex justify-end gap-2 pt-4">
                   <Button
                     type="button"
@@ -247,8 +274,8 @@ export default function AdminGuruStaff() {
                   >
                     Batal
                   </Button>
-                  <Button type="submit">
-                    {editingItem ? 'Perbarui' : 'Simpan'}
+                  <Button type="submit" disabled={uploading}>
+                    {uploading ? 'Mengunggah...' : (editingItem ? 'Perbarui' : 'Simpan')}
                   </Button>
                 </div>
               </form>
@@ -298,9 +325,7 @@ export default function AdminGuruStaff() {
                   <p className="text-sm font-medium text-gray-600">Staff</p>
                   <p className="text-2xl font-bold text-gray-900">
                     {guruStaff.filter(item => 
-                      item.jabatan.toLowerCase().includes('staff') ||
-                      item.jabatan.toLowerCase().includes('tu') ||
-                      (!item.jabatan.toLowerCase().includes('guru') && !item.jabatan.toLowerCase().includes('kepala'))
+                      item.jabatan.toLowerCase().includes('staff')
                     ).length}
                   </p>
                 </div>

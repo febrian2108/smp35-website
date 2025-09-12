@@ -7,7 +7,7 @@ import { Textarea } from '../components/ui/textarea';
 import { Card, CardContent, CardHeader, CardTitle } from '../components/ui/card';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '../components/ui/dialog';
 import { Label } from '../components/ui/label';
-import { Trash2, Edit, Plus, Eye, ArrowLeft } from 'lucide-react';
+import { Trash2, Edit, Plus, Eye, ArrowLeft, Upload, X, Image } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'sonner';
 
@@ -21,8 +21,12 @@ export default function AdminBerita() {
     judul: "",
     deskripsi: "",
     isi: "",
-    gambar_url: "",
-    gambarFile: null,
+    gambar_urls: [],
+    gambarFiles: [],
+    file_url: "",
+    file_name: "",
+    file_type: "",
+    documentFile: null,
   });
   const navigate = useNavigate();
 
@@ -47,20 +51,74 @@ export default function AdminBerita() {
     }
   };
 
+  const handleImageUpload = (files) => {
+    const newFiles = Array.from(files);
+    setFormData(prev => ({
+      ...prev,
+      gambarFiles: [...prev.gambarFiles, ...newFiles]
+    }));
+  };
+
+  const removeImage = (index) => {
+    setFormData(prev => ({
+      ...prev,
+      gambarFiles: prev.gambarFiles.filter((_, i) => i !== index)
+    }));
+  };
+
+  const removeExistingImage = (index) => {
+    setFormData(prev => ({
+      ...prev,
+      gambar_urls: prev.gambar_urls.filter((_, i) => i !== index)
+    }));
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     
     try {
       let finalFormData = { ...formData };
+      let uploadedImages = [...formData.gambar_urls];
 
-      if (formData.gambarFile) {
-        const uploadResult = await uploadFile(formData.gambarFile);
-        if (uploadResult.success) {
-          finalFormData.gambar_url = uploadResult.data.publicUrl;
-        } else {
-          throw new Error("Gagal mengunggah gambar: " + uploadResult.error);
+      // Upload new images if provided
+      if (formData.gambarFiles && formData.gambarFiles.length > 0) {
+        for (const file of formData.gambarFiles) {
+          const uploadResult = await uploadFile(file, 'images', `berita/${Date.now()}-${file.name}`);
+          if (uploadResult.success) {
+            uploadedImages.push({
+              url: uploadResult.data.publicUrl,
+              name: file.name,
+              size: file.size
+            });
+          } else {
+            throw new Error("Gagal mengunggah gambar: " + uploadResult.error);
+          }
         }
       }
+
+      // Upload document if provided
+      if (formData.documentFile) {
+        const uploadResult = await uploadFile(formData.documentFile, 'documents', `berita/${Date.now()}-${formData.documentFile.name}`);
+        if (uploadResult.success) {
+          finalFormData.file_url = uploadResult.data.publicUrl;
+          finalFormData.file_name = formData.documentFile.name;
+          finalFormData.file_type = formData.documentFile.type;
+        } else {
+          throw new Error("Gagal mengunggah dokumen: " + uploadResult.error);
+        }
+      }
+
+      // Set the uploaded images array
+      finalFormData.gambar_urls = uploadedImages;
+      
+      // Set backward compatibility for single image
+      if (uploadedImages.length > 0) {
+        finalFormData.gambar_url = uploadedImages[0].url;
+      }
+
+      // Remove file objects from final data
+      delete finalFormData.gambarFiles;
+      delete finalFormData.documentFile;
 
       if (editingBerita) {
         const { error } = await supabase
@@ -81,22 +139,49 @@ export default function AdminBerita() {
 
       setIsDialogOpen(false);
       setEditingBerita(null);
-      setFormData({ judul: "", deskripsi: "", isi: "", gambar_url: "", gambarFile: null });
+      setFormData({ 
+        judul: "", 
+        deskripsi: "", 
+        isi: "", 
+        gambar_urls: [],
+        gambarFiles: [],
+        file_url: "",
+        file_name: "",
+        file_type: "",
+        documentFile: null,
+      });
       fetchBerita();
     } catch (error) {
       console.error('Error saving berita:', error);
-      toast.error('Gagal menyimpan berita');
+      toast.error('Gagal menyimpan berita: ' + error.message);
     }
   };
 
   const handleEdit = (item) => {
     setEditingBerita(item);
+    
+    // Parse gambar_urls if it exists, otherwise use single gambar_url
+    let existingImages = [];
+    if (item.gambar_urls && Array.isArray(item.gambar_urls)) {
+      existingImages = item.gambar_urls;
+    } else if (item.gambar_url) {
+      existingImages = [{
+        url: item.gambar_url,
+        name: 'image',
+        size: 0
+      }];
+    }
+
     setFormData({
       judul: item.judul,
       deskripsi: item.deskripsi || "",
       isi: item.isi,
-      gambar_url: item.gambar_url || "",
-      gambarFile: null,
+      gambar_urls: existingImages,
+      gambarFiles: [],
+      file_url: item.file_url || "",
+      file_name: item.file_name || "",
+      file_type: item.file_type || "",
+      documentFile: null,
     });
     setIsDialogOpen(true);
   };
@@ -120,7 +205,17 @@ export default function AdminBerita() {
   };
 
   const resetForm = () => {
-    setFormData({ judul: "", deskripsi: "", isi: "", gambar_url: "", gambarFile: null });
+    setFormData({ 
+      judul: "", 
+      deskripsi: "", 
+      isi: "", 
+      gambar_urls: [],
+      gambarFiles: [],
+      file_url: "",
+      file_name: "",
+      file_type: "",
+      documentFile: null,
+    });
     setEditingBerita(null);
   };
 
@@ -162,7 +257,7 @@ export default function AdminBerita() {
                 Tambah Berita
               </Button>
             </DialogTrigger>
-            <DialogContent className="max-w-2xl">
+            <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto">
               <DialogHeader>
                 <DialogTitle>
                   {editingBerita ? 'Edit Berita' : 'Tambah Berita Baru'}
@@ -204,20 +299,98 @@ export default function AdminBerita() {
                 </div>
                 
                 <div>
-                  <Label htmlFor="gambar_url">Gambar</Label>
+                  <Label htmlFor="gambar_files">Gambar (Multiple)</Label>
                   <Input
-                    id="gambar_url"
+                    id="gambar_files"
                     type="file"
                     accept="image/*"
-                    onChange={(e) => setFormData({ ...formData, gambarFile: e.target.files[0] })}
+                    multiple
+                    onChange={(e) => handleImageUpload(e.target.files)}
                   />
-                  {formData.gambar_url && (
-                    <div className="mt-2">
-                      <p className="text-sm text-gray-500 mb-1">Gambar saat ini:</p>
-                      <img src={formData.gambar_url} alt="Preview" className="max-w-xs h-auto rounded-md" />
+                  
+                  {/* Existing Images */}
+                  {formData.gambar_urls.length > 0 && (
+                    <div className="mt-4">
+                      <p className="text-sm text-gray-500 mb-2">Gambar yang sudah ada:</p>
+                      <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+                        {formData.gambar_urls.map((img, index) => (
+                          <div key={index} className="relative group">
+                            <img 
+                              src={img.url} 
+                              alt={`Existing ${index + 1}`} 
+                              className="w-full h-24 object-cover rounded-md border"
+                            />
+                            <button
+                              type="button"
+                              onClick={() => removeExistingImage(index)}
+                              className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full p-1 opacity-0 group-hover:opacity-100 transition-opacity"
+                            >
+                              <X className="h-3 w-3" />
+                            </button>
+                          </div>
+                        ))}
+                      </div>
                     </div>
                   )}
+                  
+                  {/* New Images Preview */}
+                  {formData.gambarFiles.length > 0 && (
+                    <div className="mt-4">
+                      <p className="text-sm text-gray-500 mb-2">Gambar baru yang akan diupload:</p>
+                      <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+                        {formData.gambarFiles.map((file, index) => (
+                          <div key={index} className="relative group">
+                            <img 
+                              src={URL.createObjectURL(file)} 
+                              alt={`Preview ${index + 1}`} 
+                              className="w-full h-24 object-cover rounded-md border"
+                            />
+                            <button
+                              type="button"
+                              onClick={() => removeImage(index)}
+                              className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full p-1 opacity-0 group-hover:opacity-100 transition-opacity"
+                            >
+                              <X className="h-3 w-3" />
+                            </button>
+                            <div className="absolute bottom-0 left-0 right-0 bg-black bg-opacity-50 text-white text-xs p-1 rounded-b-md">
+                              {file.name}
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+                  
                   {uploading && <p className="text-sm text-blue-500 mt-2">Mengunggah gambar...</p>}
+                </div>
+
+                <div>
+                  <Label htmlFor="document_file">File Lampiran (PDF - Opsional)</Label>
+                  <Input
+                    id="document_file"
+                    type="file"
+                    accept=".pdf,.doc,.docx"
+                    onChange={(e) => setFormData({ ...formData, documentFile: e.target.files[0] })}
+                  />
+                  {formData.file_url && (
+                    <div className="mt-2">
+                      <p className="text-sm text-gray-500 mb-1">File saat ini:</p>
+                      <div className="flex items-center gap-2 p-2 bg-gray-50 rounded">
+                        <Upload className="h-4 w-4 text-gray-500" />
+                        <span className="text-sm">{formData.file_name}</span>
+                      </div>
+                    </div>
+                  )}
+                  {formData.documentFile && (
+                    <div className="mt-2">
+                      <p className="text-sm text-gray-500 mb-1">File baru yang akan diupload:</p>
+                      <div className="flex items-center gap-2 p-2 bg-blue-50 rounded">
+                        <Upload className="h-4 w-4 text-blue-500" />
+                        <span className="text-sm">{formData.documentFile.name}</span>
+                      </div>
+                    </div>
+                  )}
+                  {uploading && <p className="text-sm text-blue-500 mt-2">Mengunggah dokumen...</p>}
                 </div>
                 
                 <div className="flex justify-end gap-2 pt-4">
@@ -228,8 +401,8 @@ export default function AdminBerita() {
                   >
                     Batal
                   </Button>
-                  <Button type="submit">
-                    {editingBerita ? 'Perbarui' : 'Simpan'}
+                  <Button type="submit" disabled={uploading}>
+                    {uploading ? 'Mengunggah...' : (editingBerita ? 'Perbarui' : 'Simpan')}
                   </Button>
                 </div>
               </form>
@@ -314,54 +487,82 @@ export default function AdminBerita() {
               </div>
             ) : (
               <div className="space-y-4">
-                {berita.map((item) => (
-                  <div
-                    key={item.id}
-                    className="border border-gray-200 rounded-lg p-6 hover:shadow-md transition-shadow"
-                  >
-                    <div className="flex items-start justify-between">
-                      <div className="flex-1">
-                        <h3 className="text-lg font-semibold text-gray-900 mb-2">
-                          {item.judul}
-                        </h3>
-                        {item.deskripsi && (
-                          <p className="text-gray-600 mb-3 line-clamp-2">
-                            {item.deskripsi}
-                          </p>
-                        )}
-                        <div className="flex items-center gap-4 text-sm text-gray-500">
-                          <span>
-                            {new Date(item.created_at).toLocaleDateString('id-ID', {
-                              year: 'numeric',
-                              month: 'long',
-                              day: 'numeric'
-                            })}
-                          </span>
-                          <span>•</span>
-                          <span>{item.isi.length} karakter</span>
+                {berita.map((item) => {
+                  // Get images count
+                  let imageCount = 0;
+                  if (item.gambar_urls && Array.isArray(item.gambar_urls)) {
+                    imageCount = item.gambar_urls.length;
+                  } else if (item.gambar_url) {
+                    imageCount = 1;
+                  }
+
+                  return (
+                    <div
+                      key={item.id}
+                      className="border border-gray-200 rounded-lg p-6 hover:shadow-md transition-shadow"
+                    >
+                      <div className="flex items-start justify-between">
+                        <div className="flex-1">
+                          <h3 className="text-lg font-semibold text-gray-900 mb-2">
+                            {item.judul}
+                          </h3>
+                          {item.deskripsi && (
+                            <p className="text-gray-600 mb-3 line-clamp-2">
+                              {item.deskripsi}
+                            </p>
+                          )}
+                          <div className="flex items-center gap-4 text-sm text-gray-500">
+                            <span>
+                              {new Date(item.created_at).toLocaleDateString('id-ID', {
+                                year: 'numeric',
+                                month: 'long',
+                                day: 'numeric'
+                              })}
+                            </span>
+                            <span>•</span>
+                            <span>{item.isi.length} karakter</span>
+                            {imageCount > 0 && (
+                              <>
+                                <span>•</span>
+                                <span className="flex items-center gap-1">
+                                  <Image className="h-3 w-3" />
+                                  {imageCount} gambar
+                                </span>
+                              </>
+                            )}
+                            {item.file_url && (
+                              <>
+                                <span>•</span>
+                                <span className="flex items-center gap-1">
+                                  <Upload className="h-3 w-3" />
+                                  File lampiran
+                                </span>
+                              </>
+                            )}
+                          </div>
+                        </div>
+                        
+                        <div className="flex items-center gap-2 ml-4">
+                          <Button
+                            variant="outline"
+                            size="sm"
+                            onClick={() => handleEdit(item)}
+                          >
+                            <Edit className="h-4 w-4" />
+                          </Button>
+                          <Button
+                            variant="outline"
+                            size="sm"
+                            onClick={() => handleDelete(item.id)}
+                            className="text-red-600 hover:text-red-700 hover:bg-red-50"
+                          >
+                            <Trash2 className="h-4 w-4" />
+                          </Button>
                         </div>
                       </div>
-                      
-                      <div className="flex items-center gap-2 ml-4">
-                        <Button
-                          variant="outline"
-                          size="sm"
-                          onClick={() => handleEdit(item)}
-                        >
-                          <Edit className="h-4 w-4" />
-                        </Button>
-                        <Button
-                          variant="outline"
-                          size="sm"
-                          onClick={() => handleDelete(item.id)}
-                          className="text-red-600 hover:text-red-700 hover:bg-red-50"
-                        >
-                          <Trash2 className="h-4 w-4" />
-                        </Button>
-                      </div>
                     </div>
-                  </div>
-                ))}
+                  );
+                })}
               </div>
             )}
           </CardContent>

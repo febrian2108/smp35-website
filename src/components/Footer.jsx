@@ -9,9 +9,9 @@ const Footer = () => {
           {/* School Logo and Name */}
           <div className="flex items-center justify-center mb-6">
             <div className="bg-blue-600 rounded-full p-3 mr-4">
-              <img 
-                src="/assets/Logo-Smp-Negeri-35-Bdl.png" 
-                alt="Logo SMP Negeri 35" 
+              <img
+                src="/assets/Logo-Smp-Negeri-35-Bdl.png"
+                alt="Logo SMP Negeri 35"
                 className="w-12 h-12 object-contain"
                 onError={(e) => {
                   e.target.style.display = 'none';
@@ -27,26 +27,26 @@ const Footer = () => {
           {/* School Description */}
           <div className="max-w-2xl mx-auto mb-8">
             <p className="text-white text-sm leading-relaxed">
-              SMP Negeri 35 Bandar Lampung adalah salah satu sekolah menengah 
+              SMP Negeri 35 Bandar Lampung adalah salah satu sekolah menengah
               pertama yang ada di Kota Bandar Lampung, Provisi Lampung.
             </p>
           </div>
 
           {/* Social Media Section */}
-          <div className="mb-8">
+          <div className="mb-2">
             <h4 className="text-white text-lg font-semibold mb-4">Temukan Kami</h4>
             <div className="flex justify-center space-x-4">
-              <SocialIcon 
-                url="https://www.instagram.com/smpn35balam" 
+              <SocialIcon
+                url="https://www.instagram.com/smpn35balam"
                 fgColor="#fff"
-                bgColor="rgba(255,255,255,0.2)" 
-                style={{ height: 40, width: 40 }} 
+                bgColor="rgba(255,255,255,0.2)"
+                style={{ height: 40, width: 40 }}
               />
-              <SocialIcon 
-                url="https://www.tiktok.com/@smpn35balam" 
+              <SocialIcon
+                url="https://www.tiktok.com/@smpn35balam"
                 fgColor="#fff"
-                bgColor="rgba(255,255,255,0.2)" 
-                style={{ height: 40, width: 40 }} 
+                bgColor="rgba(255,255,255,0.2)"
+                style={{ height: 40, width: 40 }}
               />
             </div>
           </div>
@@ -61,7 +61,9 @@ const Footer = () => {
               © 2025. SMP Negeri 35 Bandar Lampung. All Rights Reserved.
             </div>
             <div>
-              Developed by DevByte
+              <a href="https://devbyte-mu.vercel.app/" target="_blank" rel="noopener noreferrer" className="hover:underline">
+                Developed by DevByte
+              </a>
             </div>
           </div>
         </div>

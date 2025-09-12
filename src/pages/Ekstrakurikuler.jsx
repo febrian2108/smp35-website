@@ -203,19 +203,22 @@ const Ekstrakurikuler = () => {
                 >
                   {/* Image */}
                   <div className="relative h-48 bg-gradient-to-br from-blue-400 to-blue-600 overflow-hidden">
-                    {ekskul.fotoUrl ? (
+                    {ekskul.fotoUrl || ekskul.foto_url ? (
                       <img
-                        src={ekskul.fotoUrl}
+                        src={ekskul.fotoUrl || ekskul.foto_url}
                         alt={ekskul.nama}
                         className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                        onError={(e) => {
+                          e.target.style.display = 'none';
+                          e.target.nextSibling.style.display = 'flex';
+                        }}
                       />
-                    ) : (
-                      <div className="w-full h-full flex items-center justify-center">
-                        <div className="text-white">
-                          {getCategoryIcon(ekskul.kategori)}
-                        </div>
+                    ) : null}
+                    <div className={`w-full h-full flex items-center justify-center ${ekskul.fotoUrl || ekskul.foto_url ? 'hidden' : ''}`}>
+                      <div className="text-white text-6xl">
+                        {getCategoryIcon(ekskul.kategori)}
                       </div>
-                    )}
+                    </div>
                     <div className="absolute inset-0 bg-black/20 group-hover:bg-black/30 transition-colors"></div>
 
                     {/* Category Badge */}
