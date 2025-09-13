@@ -269,7 +269,7 @@ const BeritaDetail = () => {
                       <img
                         src={images[0].url}
                         alt={berita.judul}
-                        className="w-full h-64 md:h-96 object-cover rounded-xl shadow-lg transition-transform group-hover:scale-[1.02]"
+                        className="w-full object-cover rounded-xl shadow-lg transition-transform group-hover:scale-[1.02]"
                       />
                       <div className="absolute inset-0 bg-opacity-0 group-hover:bg-opacity-20 transition-all duration-300 rounded-xl flex items-center justify-center">
                         <ZoomIn className="h-12 w-12 text-white opacity-0 group-hover:opacity-100 transition-opacity" />
