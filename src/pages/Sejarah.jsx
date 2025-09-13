@@ -16,33 +16,6 @@ const Sejarah = () => {
   // Default content if no data from Firestore
   const defaultSejarah = `Sejarah SMP Negeri 35 Bandar Lampung dimulai saat sekolah tersebut diresmikan pada tanggal 17 Juli 2017 oleh Pemerintah Kota Bandar Lampung. Awalnya, sekolah ini berdiri di lokasi bekas Sekolah Dasar Negeri di daerah Kupang Kota.`;
 
-  const milestones = [
-    {
-      year: '1985',
-      title: 'Pendirian Sekolah',
-      description: 'SMP Negeri 35 Bandar Lampung resmi didirikan dengan 6 ruang kelas',
-      icon: <BookOpen className="h-6 w-6" />
-    },
-    {
-      year: '1990',
-      title: 'Pengembangan Program',
-      description: 'Mulai mengembangkan program ekstrakurikuler dan kegiatan pengembangan bakat',
-      icon: <Users className="h-6 w-6" />
-    },
-    {
-      year: '2003',
-      title: 'Era Digital',
-      description: 'Pembangunan laboratorium komputer pertama dan integrasi teknologi',
-      icon: <Clock className="h-6 w-6" />
-    },
-    {
-      year: '2020',
-      title: 'Sekolah Unggulan',
-      description: 'Menjadi salah satu SMP terkemuka di Bandar Lampung dengan berbagai prestasi',
-      icon: <Award className="h-6 w-6" />
-    }
-  ];
-
   if (loading) {
     return (
       <div className="min-h-screen bg-gray-50 flex items-center justify-center">
@@ -78,11 +51,6 @@ const Sejarah = () => {
             />
           </div>
         </div>
-      </section>
-
-
-      {/* Main Content */}
-      <section className="py-16">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <div className="max-w-4xl mx-auto">
             <div className="bg-white rounded-xl shadow-md p-8 md:p-12">
