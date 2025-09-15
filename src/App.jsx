@@ -22,6 +22,7 @@ import AdminBerita from './pages/AdminBerita';
 import AdminGuruStaff from './pages/AdminGuruStaff';
 import AdminPrestasi from './pages/AdminPrestasi';
 import AdminEkstrakurikuler from './pages/AdminEkstrakurikuler';
+import { Analytics } from '@vercel/analytics/react';
 
 import './App.css';
 
@@ -99,6 +100,7 @@ function App() {
             </div>
           } />
         </Routes>
+        <Analytics />
       </div>
     </Router>
   );
