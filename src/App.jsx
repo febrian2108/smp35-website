@@ -1,6 +1,7 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Navbar from './components/Navbar';
 import ProtectedRoute from './components/ProtectedRoute';
+import { SpeedInsights } from "@vercel/speed-insights/next"
 
 // Public Pages
 import Beranda from './pages/Beranda';
@@ -58,25 +59,25 @@ function App() {
               <AdminDashboard />
             </ProtectedRoute>
           } />
-          
+
           <Route path="/admin/berita" element={
             <ProtectedRoute>
               <AdminBerita />
             </ProtectedRoute>
           } />
-          
+
           <Route path="/admin/guru-staff" element={
             <ProtectedRoute>
               <AdminGuruStaff />
             </ProtectedRoute>
           } />
-          
+
           <Route path="/admin/prestasi" element={
             <ProtectedRoute>
               <AdminPrestasi />
             </ProtectedRoute>
           } />
-          
+
           <Route path="/admin/ekstrakurikuler" element={
             <ProtectedRoute>
               <AdminEkstrakurikuler />
@@ -90,8 +91,8 @@ function App() {
                 <h1 className="text-6xl font-bold text-gray-400 mb-4">404</h1>
                 <h2 className="text-2xl font-bold text-gray-900 mb-4">Halaman Tidak Ditemukan</h2>
                 <p className="text-gray-600 mb-8">Maaf, halaman yang Anda cari tidak dapat ditemukan.</p>
-                <a 
-                  href="/" 
+                <a
+                  href="/"
                   className="inline-flex items-center px-6 py-3 bg-blue-600 text-white font-medium rounded-lg hover:bg-blue-700 transition-colors"
                 >
                   Kembali ke Beranda
@@ -101,6 +102,7 @@ function App() {
           } />
         </Routes>
         <Analytics />
+        <SpeedInsights />
       </div>
     </Router>
   );
