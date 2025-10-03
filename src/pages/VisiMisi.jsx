@@ -22,8 +22,8 @@ const VisiMisi = () => {
   const defaultVisi = "Meningkatkan prestasi siswa berdasarkan iman dan takwa.";
   
   const defaultMisi = [
-    "agar peserta didik menjadi siswa yang berprestasi ",
-    "menjadi anak yang berguna bagi nusa dan bangsa",
+    "Agar peserta didik menjadi siswa yang berprestasi ",
+    "Menjadi anak yang berguna bagi nusa dan bangsa",
   ];
 
   const defaultTujuan = [
@@ -53,7 +53,7 @@ const VisiMisi = () => {
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center">
             <h1 className="text-4xl md:text-5xl font-bold mb-4">
-              Visi, Misi & Tujuan
+              Visi & Misi 
             </h1>
           </div>
         </div>
@@ -159,4 +159,3 @@ const VisiMisi = () => {
 };
 
 export default VisiMisi;
-

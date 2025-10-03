@@ -14,7 +14,9 @@ const Sejarah = () => {
   }, [profilData]);
 
   // Default content if no data from Firestore
-  const defaultSejarah = `Sejarah SMP Negeri 35 Bandar Lampung dimulai saat sekolah tersebut diresmikan pada tanggal 17 Juli 2017 oleh Pemerintah Kota Bandar Lampung. Awalnya, sekolah ini berdiri di lokasi bekas Sekolah Dasar Negeri di daerah Kupang Kota.`;
+  const defaultSejarah = `SMP Negeri 35 Bandar Lampung merupakan salah satu sekolah menengah pertama negeri yang berdiri di Kota Bandar Lampung berdasarkan SK Pendirian Nomor 620/III.01/HK/2017 tertanggal 14 November 2017. Pendirian sekolah ini menjadi bagian dari upaya pemerintah dalam memenuhi kebutuhan pendidikan jenjang SMP di kawasan Teluk Betung Utara, khususnya Kelurahan Kupang Kota. Dengan lokasi di Jl. Drs. Warsito No. 48, sekolah ini hadir sebagai institusi pendidikan formal baru yang diharapkan dapat menampung jumlah siswa yang semakin meningkat seiring pertumbuhan penduduk di daerah tersebut.
+
+Sejak berdiri, SMP Negeri 35 Bandar Lampung langsung menjalankan kegiatan belajar mengajar dengan dukungan fasilitas dasar seperti ruang kelas, perpustakaan, serta sarana sanitasi dan listrik yang memadai. Pada tahun 2018, sekolah ini memperoleh akreditasi B berdasarkan SK Akreditasi 132/BAN-SM/LPG/XI/2018, yang menandakan pengakuan resmi terhadap kualitas penyelenggaraan pendidikan yang diberikan. Seiring perkembangannya, sekolah ini terus melengkapi sarana pendidikan dan meningkatkan kualitas tenaga pengajar, sehingga mampu menjadi salah satu pilihan sekolah menengah pertama negeri di Bandar Lampung yang berkomitmen mencetak lulusan berdaya saing dan berkarakter.`;
 
   if (loading) {
     return (
@@ -55,7 +57,7 @@ const Sejarah = () => {
           <div className="max-w-4xl mx-auto">
             <div className="bg-white rounded-xl shadow-md p-8 md:p-12">
               <div className="prose prose-lg max-w-none">
-                <div className="text-gray-800 leading-relaxed space-y-6">
+                <div className="text-gray-800 leading-relaxed space-y-6 text-justify">
                   {( defaultSejarah).split('\n\n').map((paragraph, index) => (
                     <p key={index} className="text-lg leading-relaxed">
                       {paragraph}
@@ -76,4 +78,3 @@ const Sejarah = () => {
 };
 
 export default Sejarah;
-
