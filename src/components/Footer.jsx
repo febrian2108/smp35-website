@@ -1,67 +1,142 @@
 import { SocialIcon } from 'react-social-icons';
+import { MapPin, Phone, Mail } from 'lucide-react';
+import { Link } from 'react-router-dom';
 
 const Footer = () => {
   return (
-    <footer className="bg-gradient-to-b from-yellow-400 to-yellow-500">
+    <footer className="bg-gradient-to-br from-blue-900 via-blue-800 to-blue-900 text-white">
       {/* Main Footer Content */}
       <div className="container mx-auto px-4 py-12">
-        <div className="text-center">
-          {/* School Logo and Name */}
-          <div className="flex items-center justify-center mb-6">
-            <div className="bg-blue-600 rounded-full p-3 mr-4">
-              <img
-                src="/assets/favicon.ico"
-                alt="Logo SMP Negeri 35"
-                className="w-12 h-12 object-contain"
-                onError={(e) => {
-                  e.target.style.display = 'none';
-                }}
-              />
+        <div className="grid md:grid-cols-3 gap-8">
+          {/* School Info */}
+          <div>
+            <div className="flex items-center mb-4">
+              <div className="bg-yellow-400 rounded-full p-2 mr-3">
+                <img
+                  src="/assets/favicon.ico"
+                  alt="Logo SMP Negeri 35"
+                  className="w-10 h-10 object-contain"
+                  onError={(e) => {
+                    e.target.style.display = 'none';
+                  }}
+                />
+              </div>
+              <div>
+                <h3 className="text-xl font-bold text-yellow-300">SMP NEGERI 35</h3>
+                <h4 className="text-lg font-semibold">Bandar Lampung</h4>
+              </div>
             </div>
-            <div className="text-left">
-              <h3 className="text-2xl font-bold text-blue-600">SMP NEGERI 35</h3>
-              <h4 className="text-xl font-bold text-blue-600">Bandar Lampung</h4>
-            </div>
-          </div>
-
-          {/* School Description */}
-          <div className="max-w-2xl mx-auto mb-8">
-            <p className="text-white text-sm leading-relaxed">
-              SMP Negeri 35 Bandar Lampung adalah salah satu sekolah menengah
-              pertama yang ada di Kota Bandar Lampung, Provisi Lampung.
+            <p className="text-blue-100 text-sm leading-relaxed mb-4">
+              Membangun generasi yang berprestasi, inovatif, semangat, dan aktif dalam menghadapi tantangan masa depan dengan pendidikan berkualitas.
             </p>
           </div>
 
-          {/* Social Media Section */}
-          <div className="mb-2">
-            <h4 className="text-white text-lg font-semibold mb-4">Temukan Kami</h4>
-            <div className="flex justify-center space-x-4">
-              <SocialIcon
-                url="https://www.instagram.com/smpn35balam"
-                fgColor="#fff"
-                bgColor="rgba(255,255,255,0.2)"
-                style={{ height: 40, width: 40 }}
-              />
-              <SocialIcon
-                url="https://www.tiktok.com/@smpn35balam"
-                fgColor="#fff"
-                bgColor="rgba(255,255,255,0.2)"
-                style={{ height: 40, width: 40 }}
-              />
+          {/* Quick Links */}
+          <div>
+            <h4 className="text-lg font-bold text-yellow-300 mb-4">Tautan Cepat</h4>
+            <ul className="space-y-2">
+              <li>
+                <Link to="/" className="text-blue-100 hover:text-yellow-300 transition-colors text-sm">
+                  Beranda
+                </Link>
+              </li>
+              <li>
+                <Link to="/berita" className="text-blue-100 hover:text-yellow-300 transition-colors text-sm">
+                  Berita Sekolah
+                </Link>
+              </li>
+              <li>
+                <Link to="/profil/sejarah" className="text-blue-100 hover:text-yellow-300 transition-colors text-sm">
+                  Profil Sekolah
+                </Link>
+              </li>
+              <li>
+                <Link to="/guru-staff" className="text-blue-100 hover:text-yellow-300 transition-colors text-sm">
+                  Guru & Staff
+                </Link>
+              </li>
+              <li>
+                <Link to="/kesiswaan/prestasi" className="text-blue-100 hover:text-yellow-300 transition-colors text-sm">
+                  Prestasi Siswa
+                </Link>
+              </li>
+              <li>
+                <Link to="/kontak" className="text-blue-100 hover:text-yellow-300 transition-colors text-sm">
+                  Kontak Kami
+                </Link>
+              </li>
+            </ul>
+          </div>
+
+          {/* Contact Info */}
+          <div>
+            <h4 className="text-lg font-bold text-yellow-300 mb-4">Hubungi Kami</h4>
+            <div className="space-y-3">
+              <div className="flex items-start space-x-3">
+                <MapPin className="h-5 w-5 text-yellow-300 mt-0.5 flex-shrink-0" />
+                <p className="text-blue-100 text-sm">
+                  Jl. Drs. Warsito No.48, Kupang Kota, Kec. Tlk. Betung Utara, Kota Bandar Lampung, Lampung 35211
+                </p>
+              </div>
+              <div className="flex items-center space-x-3">
+                <Phone className="h-5 w-5 text-yellow-300 flex-shrink-0" />
+                <a href="tel:082181828118" className="text-blue-100 hover:text-yellow-300 transition-colors text-sm">
+                  0821-8182-8118
+                </a>
+              </div>
+              <div className="flex items-center space-x-3">
+                <Mail className="h-5 w-5 text-yellow-300 flex-shrink-0" />
+                <a href="mailto:smpn35bandarlampung@gmail.com" className="text-blue-100 hover:text-yellow-300 transition-colors text-sm">
+                  smpn35bandarlampung@gmail.com
+                </a>
+              </div>
+            </div>
+
+            {/* Social Media */}
+            <div className="mt-6">
+              <h5 className="text-sm font-semibold text-yellow-300 mb-3">Ikuti Kami</h5>
+              <div className="flex space-x-3">
+                <a 
+                  href="https://www.instagram.com/smpn35balam" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="hover:scale-110 transition-transform"
+                >
+                  <SocialIcon
+                    url="https://www.instagram.com/smpn35balam"
+                    fgColor="#fff"
+                    bgColor="rgba(255,215,0,0.3)"
+                    style={{ height: 36, width: 36 }}
+                  />
+                </a>
+                <a 
+                  href="https://www.tiktok.com/@smpn35balam" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="hover:scale-110 transition-transform"
+                >
+                  <SocialIcon
+                    url="https://www.tiktok.com/@smpn35balam"
+                    fgColor="#fff"
+                    bgColor="rgba(255,215,0,0.3)"
+                    style={{ height: 36, width: 36 }}
+                  />
+                </a>
+              </div>
             </div>
           </div>
         </div>
       </div>
 
       {/* Bottom Copyright Bar */}
-      <div className="bg-blue-500 py-4">
+      <div className="bg-blue-950 py-4 border-t border-blue-800">
         <div className="container mx-auto px-4">
-          <div className="flex flex-col md:flex-row justify-between items-center text-white text-sm">
+          <div className="flex flex-col md:flex-row justify-between items-center text-blue-200 text-sm">
             <div className="mb-2 md:mb-0">
-              © 2025. SMP Negeri 35 Bandar Lampung. All Rights Reserved.
+              © 2025 SMP Negeri 35 Bandar Lampung. All Rights Reserved.
             </div>
             <div>
-              <a href="https://devbyte-mu.vercel.app/" target="_blank" rel="noopener noreferrer" className="hover:underline">
+              <a href="https://devbyte-mu.vercel.app/" target="_blank" rel="noopener noreferrer" className="hover:text-yellow-300 transition-colors">
                 Developed by DevByte
               </a>
             </div>
