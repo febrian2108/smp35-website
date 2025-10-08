@@ -96,34 +96,27 @@ const Footer = () => {
             <div className="mt-6">
               <h5 className="text-sm font-semibold text-yellow-300 mb-3">Ikuti Kami</h5>
               <div className="flex space-x-3">
-                <a 
-                  href="https://www.instagram.com/smpn35balam" 
-                  target="_blank" 
+                <SocialIcon
+                  url="https://www.instagram.com/smpn35balam"
+                  fgColor="#fff"
+                  bgColor="rgba(255,215,0,0.3)"
+                  target="_blank"
                   rel="noopener noreferrer"
                   className="hover:scale-110 transition-transform"
-                >
-                  <SocialIcon
-                    url="https://www.instagram.com/smpn35balam"
-                    fgColor="#fff"
-                    bgColor="rgba(255,215,0,0.3)"
-                    style={{ height: 36, width: 36 }}
-                  />
-                </a>
-                <a 
-                  href="https://www.tiktok.com/@smpn35balam" 
-                  target="_blank" 
+                  style={{ height: 36, width: 36 }}
+                />
+                <SocialIcon
+                  url="https://www.tiktok.com/@smpn35balam"
+                  fgColor="#fff"
+                  bgColor="rgba(255,215,0,0.3)"
+                  target="_blank"
                   rel="noopener noreferrer"
                   className="hover:scale-110 transition-transform"
-                >
-                  <SocialIcon
-                    url="https://www.tiktok.com/@smpn35balam"
-                    fgColor="#fff"
-                    bgColor="rgba(255,215,0,0.3)"
-                    style={{ height: 36, width: 36 }}
-                  />
-                </a>
+                  style={{ height: 36, width: 36 }}
+                />
               </div>
             </div>
+
           </div>
         </div>
       </div>
